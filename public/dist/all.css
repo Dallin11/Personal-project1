@@ -116,7 +116,9 @@ ul {
   list-style-type: none; }
 
 table {
-  border-collapse: collapse; }
+  border-collapse: collapse;
+  height: 100%;
+  width: 100%; }
 
 td {
   border: 1px solid #999;

@@ -40,6 +40,14 @@ angular.module("app").controller("gradesCtrl", function ($scope, mainSvc) {
     $scope.grades = res;
     console.log($scope.grades);
   });
+
+  $scope.post = function (grades) {
+    console.log(grades);
+    mainSvc.postGrades(grades).then(function (res) {
+      console.log(res);
+    });
+    console.log("controller", grades);
+  };
 });
 
 // var students = [
@@ -2882,6 +2890,15 @@ angular.module("app").service("mainSvc", function ($http) {
             method: 'GET'
         }).then(function (res) {
             return res.data;
+        });
+    };
+
+    this.postGrades = function (grades) {
+        console.log("Service", grades);
+        return $http({
+            url: '/api/post-grades',
+            method: "POST",
+            data: grades
         });
     };
 });

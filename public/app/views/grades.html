@@ -3,8 +3,12 @@
 <tr>
     <th>Name</th>
     <th>Grade</th>
-    <th>Edit Grade</th>
+    <th>Edit Grade</th>    
   </tr>
+   <input type="text" placeholder="Name" ng-model="postinfo.name">   
+    <input type="int" placeholder="Grade" ng-model="postinfo.grade">   
+    <button ng-click="post(postinfo)">Add</button>  
+  
 <tr ng-repeat="grade in grades">
   <td>{{grade.name}} </td>
   <td>{{grade.grade}}</td>
