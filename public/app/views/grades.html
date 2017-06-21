@@ -1,0 +1,23 @@
+
+<table>
+<tr>
+    <th>Name</th>
+    <th>Grade</th>
+    <th>Edit Grade</th>
+  </tr>
+<tr ng-repeat="grade in grades">
+  <td>{{grade.name}} </td>
+  <td>{{grade.grade}}</td>
+  <td align="center">
+   <select width="144" style="height:19px; width:140px; text-align:center;">
+       <option selected value="grade1" onclick="quarterUpdate()" >1</option>
+       <option value="grade2" onclick="quarterUpdate()" >2</option>
+       <option value="grade3" onclick="quarterUpdate()" >3</option>
+       <option value="grade4" onclick="quarterUpdate()" >4</option>
+   </select>
+  </td>
+</tr>
+</table>
+
+
+
