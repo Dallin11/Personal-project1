@@ -61,10 +61,15 @@ app.post('/api/create-event', (req, res, next) => {
     const {subject, description, notes, time, color
 } = req.body
 
-req.app.get('db').createEvent([subject, description, notes, time, color]).then(res => {
-        console.log(res)
+req.app.get('db').createEvent([subject, description, notes, time, color]).then(response => {
+        res.send(response[0])
     })
 });
+app.get('/api/get-event', (req, res, next) => {
+    req.app.get('db'). getEvent().then((response) => {
+       res.send(response)
+    })
+})
     
     app.post('/api/post-grades', (req, res, next) => {
          const {name, grade} = req.body

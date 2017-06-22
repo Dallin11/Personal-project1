@@ -1,6 +1,11 @@
 <div class="cd-schedule">
 	<div class="timeline">
-		<ul>
+		<ul ng-repeat="event in events">
+			{{event.subject}}
+			{{event.description}}
+			{{event.notes}}
+			{{event.time}}
+			{{event.color}}
 			<li><span>8:00</span></li>
 			<li><span>08:30</span></li>
 			<li><span>9:00</span></li>
@@ -20,6 +25,7 @@
 			<li><span>4:00</span></li>
 			<li><span>4:30</span></li>
 			<li><span>5:00</span></li>
+			
 		</ul>
 	</div>
 	<!-- .timeline -->
@@ -52,7 +58,7 @@
 				<button ng-click="create(event)">Create Event</button>
 				<button ui-sref="grades">Grades</button>
 			</div>
-
+			
 		</div>
 
 		<ul>

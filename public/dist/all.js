@@ -24,10 +24,15 @@ angular.module("app", ["ui.router"]).config(function ($stateProvider, $urlRouter
 });
 "use strict";
 
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
 angular.module("app").controller("calendarCtrl", function ($scope, mainSvc) {
+  $scope.events = [];
+
   $scope.create = function (event) {
     mainSvc.createEvent(event).then(function (res) {
       console.log(res);
+      $scope.events = [].concat(_toConsumableArray($scope.events), [res]);
     });
     console.log("controller", event);
   };
@@ -2881,6 +2886,17 @@ angular.module("app").service("mainSvc", function ($http) {
             url: '/api/create-event',
             method: 'POST',
             data: event
+        }).then(function (res) {
+            return res.data;
+        });
+    };
+
+    this.getEvent = function () {
+        return $http({
+            url: '/api/get-event',
+            method: 'GET'
+        }).then(function (res) {
+            return res.data;
         });
     };
 
