@@ -24,82 +24,61 @@ angular.module("app", ["ui.router", "ui.calendar"]).config(function ($stateProvi
 });
 "use strict";
 
-angular.module("app").service("mainSvc", function ($http) {
-    // this.test = "Service working"
-    this.getauth0 = function () {
-        return $http({
-            method: "GET",
-            url: "/auth"
-        });
-    };
-    // this.createEvent= (event) =>{
-    //     console.log('Service', event)
-    //     return $http({
-    //         url: '/api/create-event',
-    //         method: 'POST',
-    //         data: event
-    //     }).then((res) => {
-    //         return res.data
-    //     })
-    // }
-
-    // this.getEvent = () => {
-    //     return $http({
-    //         url:'/api/get-event',
-    //         method: 'GET'
-    //     }).then((res) => {
-    //         return res.data
-    //     })
-    // }
-
-    this.getGrades = function () {
-        return $http({
-            url: '/api/get-grades',
-            method: 'GET'
-        }).then(function (res) {
-            return res.data;
-        });
-    };
-
-    this.postGrades = function (grades) {
-        console.log("Service", grades);
-        return $http({
-            url: '/api/post-grades',
-            method: "POST",
-            data: grades
-        });
-    };
-});
-"use strict";
-
 angular.module("app").controller("calendarCtrl", function ($scope, mainSvc) {
 
-  $scope.initCalendar = function () {
-    if (!calendar) {
-      calendar = $(elm);
-    }
-    calendar.fullCalendar(options);
-    if (attrs.calendar) {
-      uiCalendarConfig.calendars[attrs.calendar] = calendar;
-    }
-  };
+  // $scope.initCalendar = function () {
+  //   if (!calendar) {
+  //     calendar = $(elm);
+  //   }
+  //   calendar.fullCalendar(options);
+  //   if (attrs.calendar) {
+  //     uiCalendarConfig.calendars[attrs.calendar] = calendar;
+  //   }
+  // };
 
-  $scope.eventSources = [];
 
-  $scope.uiConfig = {
-    calendar: {
+  // $scope.eventSources = [];
+
+  // $scope.uiConfig = {
+  //   calendar: {
+  // height: 450,
+  // editable: true,
+  // header: {
+  //   left: 'month basicWeek basicDay agendaWeek agendaDay',
+  //   center: 'title',
+  //   right: 'today prev,next'
+  // },
+  //     eventClick: $scope.alertEventOnClick,
+  //     eventDrop: $scope.alertOnDrop,
+  //     eventResize: $scope.alertOnResize
+  //   }
+  // };
+
+
+  $(document).ready(function () {
+
+    $('#calendar').fullCalendar('next');
+
+    $('#calendar').fullCalendar({
+      //   defaultView: 'timelineMonth',
+      //   events: [
+      //     // events go here
+      //   ],
+      //   resources: [
+      //     // resources go here
+      //   ]
+      //   // other options go here...
+
+      dayClick: function dayClick() {},
       height: 450,
       editable: true,
       header: {
-        left: 'month basicWeek basicDay agendaWeek agendaDay',
+        left: 'today prev,next',
         center: 'title',
-        right: 'today prev,next'
-      },
-      eventClick: $scope.alertEventOnClick,
-      eventDrop: $scope.alertOnDrop,
-      eventResize: $scope.alertOnResize
-    }
-  };
+        right: 'month agendaWeek agendaDay'
+      }
+    });
+  });
 });
 "use strict";
 
@@ -188,4 +167,52 @@ angular.module("app").controller("mainCtrl", function ($scope, mainSvc) {
     //     }
     // }
 
+});
+"use strict";
+
+angular.module("app").service("mainSvc", function ($http) {
+    // this.test = "Service working"
+    this.getauth0 = function () {
+        return $http({
+            method: "GET",
+            url: "/auth"
+        });
+    };
+    // this.createEvent= (event) =>{
+    //     console.log('Service', event)
+    //     return $http({
+    //         url: '/api/create-event',
+    //         method: 'POST',
+    //         data: event
+    //     }).then((res) => {
+    //         return res.data
+    //     })
+    // }
+
+    // this.getEvent = () => {
+    //     return $http({
+    //         url:'/api/get-event',
+    //         method: 'GET'
+    //     }).then((res) => {
+    //         return res.data
+    //     })
+    // }
+
+    this.getGrades = function () {
+        return $http({
+            url: '/api/get-grades',
+            method: 'GET'
+        }).then(function (res) {
+            return res.data;
+        });
+    };
+
+    this.postGrades = function (grades) {
+        console.log("Service", grades);
+        return $http({
+            url: '/api/post-grades',
+            method: "POST",
+            data: grades
+        });
+    };
 });
