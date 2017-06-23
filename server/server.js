@@ -66,7 +66,7 @@ req.app.get('db').createEvent([subject, description, notes, time, color]).then(r
     })
 });
 app.get('/api/get-event', (req, res, next) => {
-    req.app.get('db'). getEvent().then((response) => {
+    req.app.get('db').getEvent().then((response) => {
        res.send(response)
     })
 })

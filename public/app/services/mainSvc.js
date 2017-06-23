@@ -17,14 +17,14 @@ angular.module("app").service("mainSvc", function ($http) {
     //     })
     // }
 
-    // this.getEvent = () => {
-    //     return $http({
-    //         url:'/api/get-event',
-    //         method: 'GET'
-    //     }).then((res) => {
-    //         return res.data
-    //     })
-    // }
+    this.getEvent = () => {
+        return $http({
+            url:'/api/get-event',
+            method: 'GET'
+        }).then((res) => {
+            return res.data
+        })
+    }
    
    this.getGrades = () => {
        return $http({

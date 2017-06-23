@@ -1,4 +1,4 @@
-angular.module("app", (["ui.router", "ui.calendar"])).config(function ($stateProvider, $urlRouterProvider) {
+angular.module("app", (["ui.router", "ui.calendar", 'ui.bootstrap'])).config(function ($stateProvider, $urlRouterProvider) {
 
     $urlRouterProvider.otherwise('/');
 
