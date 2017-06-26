@@ -1,4 +1,4 @@
-angular.module("app").controller("calendarCtrl", function ($scope, $compile, uiCalendarConfig) {
+angular.module("app").controller("calendarCtrl", function ($scope, $compile, uiCalendarConfig, mainSvc) {
   var date = new Date();
   var d = date.getDate();
   var m = date.getMonth();
@@ -119,16 +119,18 @@ angular.module("app").controller("calendarCtrl", function ($scope, $compile, uiC
   /* add custom event*/
   $scope.addEvent = function (event) {
     console.log(event)
-    $scope.events.push({
-      title: event.title,
-      color: event.color,
-      description: event.description,
-      notes: event.notes,
-      start: event.start,
-      end: event.end,
-      className: [event.title],
+    // $scope.events.push({
+    //   title: event.title,
+    //   color: event.color,
+    //   description: event.description,
+    //   notes: event.notes,
+    //   start: event.start,
+    //   end: event.end,
+    //   className: [event.title],
+      mainSvc.addEvent(event)
 
-    });
+    }
+    // });
     $scope.recieveEvent = function (event) {
       $scope.events.pull({
       title: event.title,
@@ -139,7 +141,6 @@ angular.module("app").controller("calendarCtrl", function ($scope, $compile, uiC
       end: event.end
       })
 
-    }
   };
 
   $scope.extraEventSignature = function (event) {

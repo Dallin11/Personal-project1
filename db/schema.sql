@@ -3,8 +3,8 @@ create table events(
   color text, 
   description text,
    notes text,
-    start int,
-     end int
+    start_date date,
+     end_date date
 )
 
 create table grades(

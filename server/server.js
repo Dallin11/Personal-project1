@@ -58,12 +58,12 @@ app.get('/auth/logout', function (req, res) {
 
 // Post Endpoints ===============================
 app.post('/api/add-event', (req, res, next) => {
-    const {title, color, description, notes, start, end
+    const {title, color, description, notes, start_date, end_date
 } = req.body
 console.log(req.body)
 
-req.app.get('db').addEvent([title, color, description, notes, start, end ]).then(response => {
-        res.send(response[0])
+req.app.get('db').addEvent([title, color, description, notes, start_date, end_date]).then(response => {
+        res.send(response)
         console.log(response)
     })
 });
@@ -80,7 +80,7 @@ app.get('/api/recieve-event', (req, res, next) => {
     req.app.get('db').updateGrades([name, grade]).then(res => {
         console.log(res)
     })
-    });
+    });    
 
 app.get('/api/get-grades', (req, res, next) => {
     req.app.get('db').getGrades().then((response) => {
