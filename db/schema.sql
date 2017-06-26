@@ -1,9 +1,10 @@
 create table events(
-subject text,
- description text,
- notes text,
- time text,
- color text
+ title text,
+  color text, 
+  description text,
+   notes text,
+    start int,
+     end int
 )
 
 create table grades(

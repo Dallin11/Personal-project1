@@ -17,9 +17,17 @@ angular.module("app").service("mainSvc", function ($http) {
     //     })
     // }
 
-    this.getEvent = () => {
+    this.addEvent = () => {
         return $http({
-            url:'/api/get-event',
+            url:'/api/add-event',
+            method: 'POST',
+            data: events
+        })
+    }
+
+    this.recieveEvent = () => {
+        return $http({
+            url:'/api/receive-event',
             method: 'GET'
         }).then((res) => {
             return res.data

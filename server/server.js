@@ -57,18 +57,21 @@ app.get('/auth/logout', function (req, res) {
 })
 
 // Post Endpoints ===============================
-app.post('/api/create-event', (req, res, next) => {
-    const {subject, description, notes, time, color
+app.post('/api/add-event', (req, res, next) => {
+    const {title, color, description, notes, start, end
 } = req.body
+console.log(req.body)
 
-req.app.get('db').createEvent([subject, description, notes, time, color]).then(response => {
+req.app.get('db').addEvent([title, color, description, notes, start, end ]).then(response => {
         res.send(response[0])
+        console.log(response)
     })
 });
-app.get('/api/get-event', (req, res, next) => {
-    req.app.get('db').getEvent().then((response) => {
+app.get('/api/recieve-event', (req, res, next) => {
+    req.app.get('db').receiveEvent().then((response) => {
        res.send(response)
     })
+    console.log(response)
 })
     
     app.post('/api/post-grades', (req, res, next) => {

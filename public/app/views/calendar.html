@@ -1,22 +1,24 @@
-<!--<div ui-calendar="calendarOptions" ng-model="eventSources" calendar= "myCalendar" ></div>-->
-<!--<div id='calendar'></div>-->
-<!--<ui-calendar calendar-watch-event="extraEventSignature(event)" ... >-->
-<!--// will now watch for price-->
 
-<!--<div id="eventContent" title="Event Details">
-    <div id="eventInfo"></div>
-    <p><strong><a id="eventLink" target="_blank">Read More</a></strong></p>
-</div>-->
 
-  <button type="button" class="btn btn-primary" ng-click="addEvent(event)">Add Event</button>
+<button id="myBtn" ng-click="showModal = !showModal">Open Modal</button>
+<div ui-calendar="uiConfig.calendar" config="uiConfig.calendar" id="calendar" ng-model="eventSources"></div> 
 
-  <div ui-calendar="uiConfig.calendar" class="span8 calendar" ng-model="eventSources"></div> 
+<div id="myModal" class="modal" ng-show="showModal" >
     <div class="event-form">
-        <form ng-submit="addEvent(event)">
+        <form>
             <input type="text" placeholder="Event Title" ng-model="event.title">
+            <input  placeholder="Color" ng-model="color">
+            <input type="text" placeholder="Description" ng-model="event.description">
+            <input type="text" placeholder="Notes" ng-model="event.notes">
             <input type="datetime-local" placeholder="start time" ng-model="event.start">
             <input type="datetime-local" placeholder="end time" ng-model="event.end">
-            <button type="submit">Add Event</button>
+            <button type="button" class="btn btn-primary" ng-click="addEvent(event)">Add Event</button>
+            <button ng-click="showModal = !showModal">Close Modal</button>
         </form>
-
     </div>
+<form>
+
+
+    
+</form>
+

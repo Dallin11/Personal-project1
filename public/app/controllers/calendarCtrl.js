@@ -4,10 +4,12 @@ angular.module("app").controller("calendarCtrl", function ($scope, $compile, uiC
   var m = date.getMonth();
   var y = date.getFullYear();
 
-  // $scope.changeTo = 'Hungarian';
+
   /* event source that pulls from google.com */
   $scope.eventSource = {
-    url: "http://www.google.com/calendar/feeds/usa__en%40holiday.calendar.google.com/public/basic",
+    color: 'yellow', // an option!
+    textColor: 'black', // an option!
+    // url: "http://www.google.com/calendar/feeds/usa__en%40holiday.calendar.google.com/public/basic",
     className: 'gcal-event', // an option!
     currentTimezone: 'America/Chicago' // an option!
   };
@@ -20,6 +22,8 @@ angular.module("app").controller("calendarCtrl", function ($scope, $compile, uiC
       title: 'Long Event',
       start: new Date(y, m, d - 5),
       end: new Date(y, m, d - 2)
+     
+
     },
     {
       id: 999,
@@ -43,7 +47,7 @@ angular.module("app").controller("calendarCtrl", function ($scope, $compile, uiC
       title: 'Click for Google',
       start: new Date(y, m, 28),
       end: new Date(y, m, 29),
-      url: 'http://google.com/'
+      // url: 'http://google.com/'
     }
   ];
   /* event source that calls a function on every view switch */
@@ -114,12 +118,28 @@ angular.module("app").controller("calendarCtrl", function ($scope, $compile, uiC
   };
   /* add custom event*/
   $scope.addEvent = function (event) {
+    console.log(event)
     $scope.events.push({
       title: event.title,
+      color: event.color,
+      description: event.description,
+      notes: event.notes,
       start: event.start,
       end: event.end,
-      className: [event.title]
+      className: [event.title],
+
     });
+    $scope.recieveEvent = function (event) {
+      $scope.events.pull({
+      title: event.title,
+      color: event.color,
+      description: event.description,
+      notes: event.notes,
+      start: event.start,
+      end: event.end
+      })
+
+    }
   };
 
   $scope.extraEventSignature = function (event) {
@@ -147,20 +167,10 @@ angular.module("app").controller("calendarCtrl", function ($scope, $compile, uiC
     });
     $compile(element)($scope);
   };
-  /* config object */
   
 
-  $scope.changeLang = function () {
-    if ($scope.changeTo === 'Hungarian') {
-      $scope.uiConfig.calendar.dayNames = ["Vasárnap", "Hétfő", "Kedd", "Szerda", "Csütörtök", "Péntek", "Szombat"];
-      $scope.uiConfig.calendar.dayNamesShort = ["Vas", "Hét", "Kedd", "Sze", "Csüt", "Pén", "Szo"];
-      $scope.changeTo = 'English';
-    } else {
-      $scope.uiConfig.calendar.dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-      $scope.uiConfig.calendar.dayNamesShort = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-      $scope.changeTo = 'Hungarian';
-    }
-  };
+
+ 
   /* event sources array*/
   $scope.eventSources = [$scope.events, $scope.eventSource, $scope.eventsF];
   // $scope.eventSources2 = [$scope.calEventsExt, $scope.eventsF, $scope.events];
@@ -183,21 +193,32 @@ angular.module("app").controller("calendarCtrl", function ($scope, $compile, uiC
 
     }
   };
+  $scope.showModal = false
 
-$(document).ready(function (){
+  $(document).ready(function () {
+  //   $('#calendar').fullCalendar({
+  //     eventClick: function (calEvent, jsEvent, view) {
 
-   document.getElementsByClassName('fc-body')[0].addEventListener("click", function(){
+  //       alert('Event: ' + calEvent.title);
+  //       alert('Coordinates: ' + jsEvent.pageX + ',' + jsEvent.pageY);
+  //       alert('View: ' + view.name);
 
+  //       // change the border color just for fun
+  //       $(this).css('border-color', 'red');
 
+  //     }
+    $('#calendar').fullCalendar({
+    eventClick: function(event, element) {
+        console.log(element)
+        event.title = "CLICKED!";
 
+        $('#calendar').fullCalendar('updateEvent', event);
 
-
-
+    }
+    })
 })
 
+  });
 
-
-
-});
-  
-});
+  //  document.getElementsByClassName('fc-body').addEventListener("click", function()
+  // var modal = document.getElementById('myModal');
