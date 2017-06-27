@@ -170,6 +170,10 @@ td {
 td select {
   border: none; }
 
+div {
+  border-top: 10px;
+  border-left: 10px; }
+
 header {
   background-color: #60889C;
   display: -webkit-box;

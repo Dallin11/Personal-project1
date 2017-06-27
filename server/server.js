@@ -74,7 +74,7 @@ app.get('/api/recieve-event', (req, res, next) => {
     console.log(response)
 })
     
-    app.post('/api/post-grades', (req, res, next) => {
+    app.post('/api/update-grades', (req, res, next) => {
          const {name, grade} = req.body
          console.log(req.body)
     req.app.get('db').updateGrades([name, grade]).then(res => {
