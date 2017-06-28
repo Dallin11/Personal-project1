@@ -119,18 +119,19 @@ angular.module("app").controller("calendarCtrl", function ($scope, $compile, uiC
   /* add custom event*/
   $scope.addEvent = function (event) {
     console.log(event)
-    // $scope.events.push({
-    //   title: event.title,
-    //   color: event.color,
-    //   description: event.description,
-    //   notes: event.notes,
-    //   start: event.start,
-    //   end: event.end,
-    //   className: [event.title],
-      mainSvc.addEvent(event)
+    $scope.events.push({
+      title: event.title,
+      color: event.color,
+      description: event.description,
+      notes: event.notes,
+      start: event.start,
+      end: event.end,
+      className: [event.title]
 
+      // mainSvc.addEvent(event)
+
+    });
     }
-    // });
     $scope.recieveEvent = function (event) {
       $scope.events.pull({
       title: event.title,

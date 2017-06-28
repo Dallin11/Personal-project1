@@ -2,20 +2,19 @@ angular.module("app").controller("chartCtrl", function ($scope, mainSvc) {
 
     mainSvc.getGrades().then((res) => {
         $scope.grades = res
-            $scope.gradeNum = []
-            $scope.names = []
-         Object.keys($scope.grades).forEach(key => {
-            $scope.gradeNum.push(key)
-            let myObj = $scope.grades[key]
-            $scope.names.push(myObj[name])
+        console.log($scope.grades)
+        let gradeNum = []
+        let names = []
+        $scope.grades.forEach(key => {
+            names.push(key.name)
+            gradeNum.push(key.grade)
         })
-      console.log($scope.gradeNum, $scope.names) 
-    })
+      console.log(gradeNum, names) 
 
-
-    $scope.labels = $scope.name
+ 
+    $scope.labels = names
     $scope.series = ['Series A', 'Series B'];
-    $scope.data = $scope.gradeNum
+    $scope.data = gradeNum
     ;
     $scope.onClick = function (points, evt) {
         console.log(points, evt);
@@ -42,4 +41,5 @@ angular.module("app").controller("chartCtrl", function ($scope, mainSvc) {
             ]
         }
     };
+    })
 });

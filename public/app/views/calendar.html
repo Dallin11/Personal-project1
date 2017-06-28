@@ -1,13 +1,12 @@
-
 <a ui-sref="grades">Grades</a>
 <button id="myBtn" ng-click="showModal = !showModal">Open Modal</button>
-<div ui-calendar="uiConfig.calendar" config="uiConfig.calendar" id="calendar" ng-model="eventSources"></div> 
+<div ui-calendar="uiConfig.calendar" config="uiConfig.calendar" id="calendar" ng-model="eventSources"></div>
 
-<div id="myModal" class="modal" ng-show="showModal" >
+<div id="myModal" class="modal" ng-show="showModal">
     <div class="event-form">
         <form>
             <input type="text" placeholder="Event Title" ng-model="event.title">
-            <input  placeholder="Color" ng-model="color">
+            <input type="text" placeholder="Color" ng-model="event.color">
             <input type="text" placeholder="Description" ng-model="event.description">
             <input type="text" placeholder="Notes" ng-model="event.notes">
             <input type="datetime-local" placeholder="start time" ng-model="event.start">
@@ -15,11 +14,10 @@
             <button type="button" class="btn btn-primary" ng-click="addEvent(event)">Add Event</button>
             <button ng-click="showModal = !showModal">Close Modal</button>
         </form>
-        
+
     </div>
-<form>
+    <form>
 
 
-    
-</form>
 
+    </form>

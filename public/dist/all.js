@@ -136,18 +136,20 @@ angular.module("app").controller("calendarCtrl", function ($scope, $compile, uiC
   };
   /* add custom event*/
   $scope.addEvent = function (event) {
-    console.log(event
-    // $scope.events.push({
-    //   title: event.title,
-    //   color: event.color,
-    //   description: event.description,
-    //   notes: event.notes,
-    //   start: event.start,
-    //   end: event.end,
-    //   className: [event.title],
-    );mainSvc.addEvent(event);
+    console.log(event);
+    $scope.events.push({
+      title: event.title,
+      color: event.color,
+      description: event.description,
+      notes: event.notes,
+      start: event.start,
+      end: event.end,
+      className: [event.title]
+
+      // mainSvc.addEvent(event)
+
+    });
   };
-  // });
   $scope.recieveEvent = function (event) {
     $scope.events.pull({
       title: event.title,
@@ -240,42 +242,42 @@ angular.module("app").controller("chartCtrl", function ($scope, mainSvc) {
 
     mainSvc.getGrades().then(function (res) {
         $scope.grades = res;
-        $scope.gradeNum = [];
-        $scope.names = [];
-        Object.keys($scope.grades).forEach(function (key) {
-            $scope.gradeNum.push(key);
-            var myObj = $scope.grades[key];
-            $scope.names.push(myObj[name]);
+        console.log($scope.grades);
+        var gradeNum = [];
+        var names = [];
+        $scope.grades.forEach(function (key) {
+            names.push(key.name);
+            gradeNum.push(key.grade);
         });
-        console.log($scope.gradeNum, $scope.names);
-    });
+        console.log(gradeNum, names);
 
-    $scope.labels = $scope.name;
-    $scope.series = ['Series A', 'Series B'];
-    $scope.data = $scope.gradeNum;
-    $scope.onClick = function (points, evt) {
-        console.log(points, evt);
-    };
-    $scope.datasetOverride = [{
-        yAxisID: 'y-axis-1'
-    }, {
-        yAxisID: 'y-axis-2'
-    }];
-    $scope.options = {
-        scales: {
-            yAxes: [{
-                id: 'y-axis-1',
-                type: 'linear',
-                display: true,
-                position: 'left'
-            }, {
-                id: 'y-axis-2',
-                type: 'linear',
-                display: true,
-                position: 'right'
-            }]
-        }
-    };
+        $scope.labels = names;
+        $scope.series = ['Series A', 'Series B'];
+        $scope.data = gradeNum;
+        $scope.onClick = function (points, evt) {
+            console.log(points, evt);
+        };
+        $scope.datasetOverride = [{
+            yAxisID: 'y-axis-1'
+        }, {
+            yAxisID: 'y-axis-2'
+        }];
+        $scope.options = {
+            scales: {
+                yAxes: [{
+                    id: 'y-axis-1',
+                    type: 'linear',
+                    display: true,
+                    position: 'left'
+                }, {
+                    id: 'y-axis-2',
+                    type: 'linear',
+                    display: true,
+                    position: 'right'
+                }]
+            }
+        };
+    });
 });
 "use strict";
 
@@ -331,62 +333,6 @@ angular.module("app").controller("mainCtrl", function ($scope, mainSvc) {
     //     }
     // }
 
-});
-"use strict";
-
-angular.module("app").service("mainSvc", function ($http) {
-    // this.test = "Service working"
-    this.getauth0 = function () {
-        return $http({
-            method: "GET",
-            url: "/auth"
-        });
-    };
-    // this.createEvent= (event) =>{
-    //     console.log('Service', event)
-    //     return $http({
-    //         url: '/api/create-event',
-    //         method: 'POST',
-    //         data: event
-    //     }).then((res) => {
-    //         return res.data
-    //     })
-    // }
-
-    this.addEvent = function (event) {
-        console.log(event);
-        return $http({
-            url: '/api/add-event',
-            method: 'POST',
-            data: event
-        });
-    };
-    this.recieveEvent = function () {
-        return $http({
-            url: '/api/receive-event',
-            method: 'GET'
-        }).then(function (res) {
-            return res.data;
-        });
-    };
-
-    this.getGrades = function () {
-        return $http({
-            url: '/api/get-grades',
-            method: 'GET'
-        }).then(function (res) {
-            return res.data;
-        });
-    };
-
-    this.postGrades = function (grades) {
-        console.log("Service", grades);
-        return $http({
-            url: '/api/update-grades',
-            method: "POST",
-            data: grades
-        });
-    };
 });
 "use strict";
 
@@ -11258,4 +11204,60 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
       scope.$emit('chart-destroy', scope.chart);
     }
   }
+});
+"use strict";
+
+angular.module("app").service("mainSvc", function ($http) {
+    // this.test = "Service working"
+    this.getauth0 = function () {
+        return $http({
+            method: "GET",
+            url: "/auth"
+        });
+    };
+    // this.createEvent= (event) =>{
+    //     console.log('Service', event)
+    //     return $http({
+    //         url: '/api/create-event',
+    //         method: 'POST',
+    //         data: event
+    //     }).then((res) => {
+    //         return res.data
+    //     })
+    // }
+
+    this.addEvent = function (event) {
+        console.log(event);
+        return $http({
+            url: '/api/add-event',
+            method: 'POST',
+            data: event
+        });
+    };
+    this.recieveEvent = function () {
+        return $http({
+            url: '/api/receive-event',
+            method: 'GET'
+        }).then(function (res) {
+            return res.data;
+        });
+    };
+
+    this.getGrades = function () {
+        return $http({
+            url: '/api/get-grades',
+            method: 'GET'
+        }).then(function (res) {
+            return res.data;
+        });
+    };
+
+    this.postGrades = function (grades) {
+        console.log("Service", grades);
+        return $http({
+            url: '/api/update-grades',
+            method: "POST",
+            data: grades
+        });
+    };
 });

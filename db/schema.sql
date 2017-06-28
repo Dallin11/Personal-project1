@@ -14,4 +14,3 @@ create table grades(
     grade integer
 ) 
 
-insert into grades(name, grade) values ("Dallin Andeson", 3), ("Jimmy smith", 2), ("Samantha Grow", 1), ("John Jacobs", 4)
