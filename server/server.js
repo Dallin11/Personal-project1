@@ -27,10 +27,10 @@ massive( config.database).then(db => {
 
 
 passport.use(new Auth0Strategy({
-    domain: "dallin.auth0.com",
-    clientID: "6wK1I4iwfvXmWA3GcKk7UouQgbCSyYMf",
-    clientSecret: "kNN8mrQALdroDrolf30yGyrZtJ2zX5ZI8GzG4cBGScmym-0wpjl8pmYorYsQDvUL",
-    callbackURL: "/auth/callback"
+    domain: config.domain,
+    clientID: config.clientID,
+    clientSecret: config.clientSecret,
+    callbackURL: config.callbackURL
 }, function (assesToken, refreshToken, extraParams, profile, done) {
     return done(null, profile);
 }));
