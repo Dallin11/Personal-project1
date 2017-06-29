@@ -1,4 +1,26 @@
 angular.module("app").controller("calendarCtrl", function ($scope, $compile, uiCalendarConfig, mainSvc) {
+ 
+ $scope.showModal = false
+
+   $scope.uiConfig = {
+    calendar: {
+      height: 800,
+      defaultView: "agendaWeek",
+      editable: true,
+      selectable: true,
+      header: {
+        left: 'today prev,next',
+        center: 'title',
+        right: 'month, agendaWeek agendaDay'
+      },
+      eventClick: $scope.alertEventOnClick,
+      eventDrop: $scope.alertOnDrop,
+      eventResize: $scope.alertOnResize,
+      eventRender: $scope.eventRender
+
+    }
+  };
+
   var date = new Date();
   var d = date.getDate();
   var m = date.getMonth();
@@ -22,8 +44,6 @@ angular.module("app").controller("calendarCtrl", function ($scope, $compile, uiC
       title: 'Long Event',
       start: new Date(y, m, d - 5),
       end: new Date(y, m, d - 2)
-     
-
     },
     {
       id: 999,
@@ -50,6 +70,8 @@ angular.module("app").controller("calendarCtrl", function ($scope, $compile, uiC
       // url: 'http://google.com/'
     }
   ];
+
+  console.log($scope.events)
   /* event source that calls a function on every view switch */
   $scope.eventsF = function (start, end, timezone, callback) {
     var s = new Date(start).getTime() / 1000;
@@ -65,6 +87,8 @@ angular.module("app").controller("calendarCtrl", function ($scope, $compile, uiC
     callback(events);
   };
 
+  
+  
   $scope.calEventsExt = {
     color: '#f00',
     textColor: 'yellow',
@@ -118,31 +142,39 @@ angular.module("app").controller("calendarCtrl", function ($scope, $compile, uiC
   };
   /* add custom event*/
   $scope.addEvent = function (event) {
-    console.log(event)
-    $scope.events.push({
-      title: event.title,
-      color: event.color,
-      description: event.description,
-      notes: event.notes,
-      start: event.start,
-      end: event.end,
-      className: [event.title]
+    console.log("Entered Start: ", event.start_time)
+      mainSvc.addEvent(event).then(response => {
+        const {title, color, description, notes, start_time, end_time} = response.data[0]
 
-      // mainSvc.addEvent(event)
+        let startTime = moment(start_time).format()
+        let endTime = moment(end_time).format()
 
-    });
-    }
-    $scope.recieveEvent = function (event) {
-      $scope.events.pull({
-      title: event.title,
-      color: event.color,
-      description: event.description,
-      notes: event.notes,
-      start: event.start,
-      end: event.end
+        
+        $scope.events.push({
+          title: title,
+          start: startTime,
+          end: endTime,
+          color: color
+        })
+
+        // $scope.events.push({
+        //   title: title,
+        //   color: color,
+        //   description: description,
+        //   notes: notes,
+        //   startTime: start_time,
+        //   endTime: end_time,
+        //   });
       })
+  
+  }
+      
+  
 
-  };
+  //     mainSvc.recieveEvent().then((response) => {
+  //   $scope.event = response
+  //     console.log(event)
+  // });
 
   $scope.extraEventSignature = function (event) {
     return "" + event.price;
@@ -177,27 +209,13 @@ angular.module("app").controller("calendarCtrl", function ($scope, $compile, uiC
   $scope.eventSources = [$scope.events, $scope.eventSource, $scope.eventsF];
   // $scope.eventSources2 = [$scope.calEventsExt, $scope.eventsF, $scope.events];
 
-  $scope.uiConfig = {
-    calendar: {
-      height: 800,
-      defaultView: "agendaWeek",
-      editable: true,
-      selectable: true,
-      header: {
-        left: 'today prev,next',
-        center: 'title',
-        right: 'month, agendaWeek agendaDay'
-      },
-      eventClick: $scope.alertEventOnClick,
-      eventDrop: $scope.alertOnDrop,
-      eventResize: $scope.alertOnResize,
-      eventRender: $scope.eventRender
+ 
 
-    }
-  };
-  $scope.showModal = false
+  
 
   $(document).ready(function () {
+   
+
   //   $('#calendar').fullCalendar({
   //     eventClick: function (calEvent, jsEvent, view) {
 
@@ -224,3 +242,4 @@ angular.module("app").controller("calendarCtrl", function ($scope, $compile, uiC
 
   //  document.getElementsByClassName('fc-body').addEventListener("click", function()
   // var modal = document.getElementById('myModal');
+

@@ -28,6 +28,28 @@ angular.module("app", ["ui.router", "ui.calendar", 'ui.bootstrap', 'chart.js']).
 "use strict";
 
 angular.module("app").controller("calendarCtrl", function ($scope, $compile, uiCalendarConfig, mainSvc) {
+
+  $scope.showModal = false;
+
+  $scope.uiConfig = {
+    calendar: {
+      height: 800,
+      defaultView: "agendaWeek",
+      editable: true,
+      selectable: true,
+      header: {
+        left: 'today prev,next',
+        center: 'title',
+        right: 'month, agendaWeek agendaDay'
+      },
+      eventClick: $scope.alertEventOnClick,
+      eventDrop: $scope.alertOnDrop,
+      eventResize: $scope.alertOnResize,
+      eventRender: $scope.eventRender
+
+    }
+  };
+
   var date = new Date();
   var d = date.getDate();
   var m = date.getMonth();
@@ -49,7 +71,6 @@ angular.module("app").controller("calendarCtrl", function ($scope, $compile, uiC
     title: 'Long Event',
     start: new Date(y, m, d - 5),
     end: new Date(y, m, d - 2)
-
   }, {
     id: 999,
     title: 'Repeating Event',
@@ -71,8 +92,10 @@ angular.module("app").controller("calendarCtrl", function ($scope, $compile, uiC
     end: new Date(y, m, 29)
     // url: 'http://google.com/'
   }];
+
+  console.log($scope.events
   /* event source that calls a function on every view switch */
-  $scope.eventsF = function (start, end, timezone, callback) {
+  );$scope.eventsF = function (start, end, timezone, callback) {
     var s = new Date(start).getTime() / 1000;
     var e = new Date(end).getTime() / 1000;
     var m = new Date(start).getMonth();
@@ -136,30 +159,43 @@ angular.module("app").controller("calendarCtrl", function ($scope, $compile, uiC
   };
   /* add custom event*/
   $scope.addEvent = function (event) {
-    console.log(event);
-    $scope.events.push({
-      title: event.title,
-      color: event.color,
-      description: event.description,
-      notes: event.notes,
-      start: event.start,
-      end: event.end,
-      className: [event.title]
+    console.log("Entered Start: ", event.start_time);
+    mainSvc.addEvent(event).then(function (response) {
+      var _response$data$ = response.data[0],
+          title = _response$data$.title,
+          color = _response$data$.color,
+          description = _response$data$.description,
+          notes = _response$data$.notes,
+          start_time = _response$data$.start_time,
+          end_time = _response$data$.end_time;
 
-      // mainSvc.addEvent(event)
 
+      var startTime = moment(start_time).format();
+      var endTime = moment(end_time).format();
+
+      $scope.events.push({
+        title: title,
+        start: startTime,
+        end: endTime,
+        color: color
+      }
+
+      // $scope.events.push({
+      //   title: title,
+      //   color: color,
+      //   description: description,
+      //   notes: notes,
+      //   startTime: start_time,
+      //   endTime: end_time,
+      //   });
+      );
     });
   };
-  $scope.recieveEvent = function (event) {
-    $scope.events.pull({
-      title: event.title,
-      color: event.color,
-      description: event.description,
-      notes: event.notes,
-      start: event.start,
-      end: event.end
-    });
-  };
+
+  //     mainSvc.recieveEvent().then((response) => {
+  //   $scope.event = response
+  //     console.log(event)
+  // });
 
   $scope.extraEventSignature = function (event) {
     return "" + event.price;
@@ -191,27 +227,9 @@ angular.module("app").controller("calendarCtrl", function ($scope, $compile, uiC
   $scope.eventSources = [$scope.events, $scope.eventSource, $scope.eventsF];
   // $scope.eventSources2 = [$scope.calEventsExt, $scope.eventsF, $scope.events];
 
-  $scope.uiConfig = {
-    calendar: {
-      height: 800,
-      defaultView: "agendaWeek",
-      editable: true,
-      selectable: true,
-      header: {
-        left: 'today prev,next',
-        center: 'title',
-        right: 'month, agendaWeek agendaDay'
-      },
-      eventClick: $scope.alertEventOnClick,
-      eventDrop: $scope.alertOnDrop,
-      eventResize: $scope.alertOnResize,
-      eventRender: $scope.eventRender
-
-    }
-  };
-  $scope.showModal = false;
 
   $(document).ready(function () {
+
     //   $('#calendar').fullCalendar({
     //     eventClick: function (calEvent, jsEvent, view) {
 
@@ -11227,14 +11245,23 @@ angular.module("app").service("mainSvc", function ($http) {
     // }
 
     this.addEvent = function (event) {
-        console.log(event);
         return $http({
             url: '/api/add-event',
             method: 'POST',
             data: event
         });
     };
+    this.getEvents = function () {
+        console.log(events);
+        return$http({
+            url: '/api/get-event',
+            method: 'GET'
+        }).then(function (res) {
+            return res.data.events;
+        });
+    };
     this.recieveEvent = function () {
+        console.log(event);
         return $http({
             url: '/api/receive-event',
             method: 'GET'
