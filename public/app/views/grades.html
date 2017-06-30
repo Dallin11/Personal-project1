@@ -14,7 +14,7 @@
        <option value="3" onclick="quarterUpdate()" >3</option>
        <option value="4" onclick="quarterUpdate()" >4</option>
        </select>
-    <button ng-click="post(postinfo)">Add</button>
+    <button ng-model="postinfo.grades" ng-click="post(postinfo)">Add</button>
     <!-- Edit grade column 3 -->
     <tr ng-repeat="grade in grades">
         <td>{{grade.name}} </td>

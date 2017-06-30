@@ -2,18 +2,20 @@ angular.module("app").controller("gradesCtrl", function($scope, mainSvc){
 
 
 
- mainSvc.getGrades().then((res) =>{
+$scope.getGrades = () => {
+ mainSvc.getGrades().then((res) => {
    $scope.grades = res
-console.log($scope.grades)
- })
-
-
- $scope.post = (grades) => {
-   console.log(grades)
-   mainSvc.postGrades(grades).then(function(res){
    console.log(res)
-
+ })
+}
+ $scope.post = (grades) => {
+   mainSvc.postGrades(grades).then(function(res){
+     console.log(res)
+     $scope.grades.push(res.data[0])
    })
-console.log("controller", grades);
+
  }
+
+  $scope.getGrades()
+
 });

@@ -55,7 +55,6 @@ angular.module("app").service("mainSvc", function ($http) {
    }
 
    this.postGrades = (grades) => {
-       console.log("Service", grades)
        return $http({
            url: '/api/update-grades',
            method: "POST",
@@ -65,11 +64,17 @@ angular.module("app").service("mainSvc", function ($http) {
    }
 
    this.getUser = () => {
-    //    console.log("Service", users)
+       console.log("Service")
        return $http({
            url: '/auth/me',
            method: 'GET'
+       }).then((res) => {
+       return res
+       }).catch((err) => {
+          console.log('string')
        })
+
+       
    }
 
 })

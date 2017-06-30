@@ -9,22 +9,23 @@ angular.module("app", (["ui.router", "ui.calendar", 'ui.bootstrap', 'chart.js'])
             controller: "homeCtrl"
         })
         .state("calendar", {
-            url: "/calendar",
-            templateUrl: "./app/views/calendar.html",
-            controller: "calendarCtrl",
-                   resolve: {
-                    users: function (mainSvc, $state, $rootScope) {
-                        mainSvc.getUser().then(response => {
-                            if (response === 'No Way Jose') {
+                url: "/calendar",
+                templateUrl: "./app/views/calendar.html",
+                controller: "calendarCtrl",
+                resolve: {
+                    users: function (mainSvc, $state) {
+
+                        mainSvc.getUser().then(response => { 
+                            if (!response) {
                                 event.preventDefault()
-                                $state.go("login")
+                                $state.go("home")
                             }
                         })
                     }
                 }
 
-                }
-            
+            }
+
         )
         .state("grades", {
             url: "/grades",
@@ -33,12 +34,12 @@ angular.module("app", (["ui.router", "ui.calendar", 'ui.bootstrap', 'chart.js'])
         })
         .state("login", {
             url: "/login",
-            templateUrl:"./app/views/login.html",
+            templateUrl: "./app/views/login.html",
             controller: "loginCtrl"
         })
         .state("chart", {
             url: "/chart",
-            templateUrl:"./app/views/chart.html"
+            templateUrl: "./app/views/chart.html"
         })
 
 })

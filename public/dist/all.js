@@ -13,11 +13,12 @@ angular.module("app", ["ui.router", "ui.calendar", 'ui.bootstrap', 'chart.js']).
         templateUrl: "./app/views/calendar.html",
         controller: "calendarCtrl",
         resolve: {
-            users: function users(mainSvc, $state, $rootScope) {
+            users: function users(mainSvc, $state) {
+
                 mainSvc.getUser().then(function (response) {
-                    if (response === 'No Way Jose') {
+                    if (!response) {
                         event.preventDefault();
-                        $state.go("login");
+                        $state.go("home");
                     }
                 });
             }
@@ -38,7 +39,7 @@ angular.module("app", ["ui.router", "ui.calendar", 'ui.bootstrap', 'chart.js']).
 });
 "use strict";
 
-angular.module("app").controller("calendarCtrl", function ($scope, $compile, uiCalendarConfig, mainSvc) {
+angular.module("app").controller("calendarCtrl", function ($scope, users, $compile, uiCalendarConfig, mainSvc) {
 
   $scope.showModal = false;
 
@@ -65,48 +66,20 @@ angular.module("app").controller("calendarCtrl", function ($scope, $compile, uiC
   var d = date.getDate();
   var m = date.getMonth();
   var y = date.getFullYear();
+  // The Events that Show on calendar
+  $scope.events = [];
 
-  /* event source that pulls from google.com */
-  $scope.eventSource = {
-    color: 'yellow', // an option!
-    textColor: 'black', // an option!
-    // url: "http://www.google.com/calendar/feeds/usa__en%40holiday.calendar.google.com/public/basic",
-    className: 'gcal-event', // an option!
-    currentTimezone: 'America/Chicago' // an option!
+  $scope.getEvents = function () {
+    mainSvc.getEvents().then(function (response) {
+      console.log(response);
+      $scope.push(response //push the res back to events!
+      );
+    });
+    $scope.getEvent();
   };
-  /* event source that contains custom events on the scope */
-  $scope.events = [{
-    title: 'All Day Event',
-    start: new Date(y, m, 1)
-  }, {
-    title: 'Long Event',
-    start: new Date(y, m, d - 5),
-    end: new Date(y, m, d - 2)
-  }, {
-    id: 999,
-    title: 'Repeating Event',
-    start: new Date(y, m, d - 3, 16, 0),
-    allDay: false
-  }, {
-    id: 999,
-    title: 'Repeating Event',
-    start: new Date(y, m, d + 4, 16, 0),
-    allDay: false
-  }, {
-    title: 'Birthday Party',
-    start: new Date(y, m, d + 1, 19, 0),
-    end: new Date(y, m, d + 1, 22, 30),
-    allDay: false
-  }, {
-    title: 'Click for Google',
-    start: new Date(y, m, 28),
-    end: new Date(y, m, 29)
-    // url: 'http://google.com/'
-  }];
 
-  console.log($scope.events
   /* event source that calls a function on every view switch */
-  );$scope.eventsF = function (start, end, timezone, callback) {
+  $scope.eventsF = function (start, end, timezone, callback) {
     var s = new Date(start).getTime() / 1000;
     var e = new Date(end).getTime() / 1000;
     var m = new Date(start).getMonth();
@@ -120,29 +93,6 @@ angular.module("app").controller("calendarCtrl", function ($scope, $compile, uiC
     callback(events);
   };
 
-  $scope.calEventsExt = {
-    color: '#f00',
-    textColor: 'yellow',
-    events: [{
-      type: 'party',
-      title: 'Lunch',
-      start: new Date(y, m, d, 12, 0),
-      end: new Date(y, m, d, 14, 0),
-      allDay: false
-    }, {
-      type: 'party',
-      title: 'Lunch 2',
-      start: new Date(y, m, d, 12, 0),
-      end: new Date(y, m, d, 14, 0),
-      allDay: false
-    }, {
-      type: 'party',
-      title: 'Click for Google',
-      start: new Date(y, m, 28),
-      end: new Date(y, m, 29),
-      url: 'http://google.com/'
-    }]
-  };
   /* alert on eventClick */
   $scope.alertOnEventClick = function (date, jsEvent, view) {
     $scope.alertMessage = date.title + ' was clicked ';
@@ -239,28 +189,30 @@ angular.module("app").controller("calendarCtrl", function ($scope, $compile, uiC
   // $scope.eventSources2 = [$scope.calEventsExt, $scope.eventsF, $scope.events];
 
 
-  $(document).ready(function () {
+  //   $(document).ready(function () {
 
-    //   $('#calendar').fullCalendar({
-    //     eventClick: function (calEvent, jsEvent, view) {
 
-    //       alert('Event: ' + calEvent.title);
-    //       alert('Coordinates: ' + jsEvent.pageX + ',' + jsEvent.pageY);
-    //       alert('View: ' + view.name);
+  //   //   $('#calendar').fullCalendar({
+  //   //     eventClick: function (calEvent, jsEvent, view) {
 
-    //       // change the border color just for fun
-    //       $(this).css('border-color', 'red');
+  //   //       alert('Event: ' + calEvent.title);
+  //   //       alert('Coordinates: ' + jsEvent.pageX + ',' + jsEvent.pageY);
+  //   //       alert('View: ' + view.name);
 
-    //     }
-    $('#calendar').fullCalendar({
-      eventClick: function eventClick(event, element) {
-        console.log(element);
-        event.title = "CLICKED!";
+  //   //       // change the border color just for fun
+  //   //       $(this).css('border-color', 'red');
 
-        $('#calendar').fullCalendar('updateEvent', event);
-      }
-    });
-  });
+  //   //     }
+  //     $('#calendar').fullCalendar({
+  //     eventClick: function(event, element) {
+  //         console.log(element)
+  //         event.title = "CLICKED!";
+
+  //         $('#calendar').fullCalendar('updateEvent', event);
+
+  //     }
+  //     })
+  // })
 });
 
 //  document.getElementsByClassName('fc-body').addEventListener("click", function()
@@ -312,18 +264,20 @@ angular.module("app").controller("chartCtrl", function ($scope, mainSvc) {
 
 angular.module("app").controller("gradesCtrl", function ($scope, mainSvc) {
 
-  mainSvc.getGrades().then(function (res) {
-    $scope.grades = res;
-    console.log($scope.grades);
-  });
-
-  $scope.post = function (grades) {
-    console.log(grades);
-    mainSvc.postGrades(grades).then(function (res) {
+  $scope.getGrades = function () {
+    mainSvc.getGrades().then(function (res) {
+      $scope.grades = res;
       console.log(res);
     });
-    console.log("controller", grades);
   };
+  $scope.post = function (grades) {
+    mainSvc.postGrades(grades).then(function (res) {
+      console.log(res);
+      $scope.grades.push(res.data[0]);
+    });
+  };
+
+  $scope.getGrades();
 });
 "use strict";
 
@@ -362,6 +316,82 @@ angular.module("app").controller("mainCtrl", function ($scope, mainSvc) {
     //     }
     // }
 
+});
+"use strict";
+
+angular.module("app").service("mainSvc", function ($http) {
+    // this.test = "Service working"
+    this.getauth0 = function () {
+        return $http({
+            method: "GET",
+            url: "/auth"
+        });
+    };
+    // this.createEvent= (event) =>{
+    //     console.log('Service', event)
+    //     return $http({
+    //         url: '/api/create-event',
+    //         method: 'POST',
+    //         data: event
+    //     }).then((res) => {
+    //         return res.data
+    //     })
+    // }
+
+    this.addEvent = function (event) {
+        return $http({
+            url: '/api/add-event',
+            method: 'POST',
+            data: event
+        });
+    };
+    this.getEvents = function () {
+        console.log(events);
+        return $http({
+            url: '/api/get-event',
+            method: 'GET'
+        }).then(function (res) {
+            return res.data.events;
+        });
+    };
+    this.recieveEvent = function () {
+        console.log(event);
+        return $http({
+            url: '/api/receive-event',
+            method: 'GET'
+        }).then(function (res) {
+            return res.data;
+        });
+    };
+
+    this.getGrades = function () {
+        return $http({
+            url: '/api/get-grades',
+            method: 'GET'
+        }).then(function (res) {
+            return res.data;
+        });
+    };
+
+    this.postGrades = function (grades) {
+        return $http({
+            url: '/api/update-grades',
+            method: "POST",
+            data: grades
+        });
+    };
+
+    this.getUser = function () {
+        console.log("Service");
+        return $http({
+            url: '/auth/me',
+            method: 'GET'
+        }).then(function (res) {
+            return res;
+        }).catch(function (err) {
+            console.log('string');
+        });
+    };
 });
 "use strict";
 
@@ -11233,78 +11263,5 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
       scope.$emit('chart-destroy', scope.chart);
     }
   }
-});
-"use strict";
-
-angular.module("app").service("mainSvc", function ($http) {
-    // this.test = "Service working"
-    this.getauth0 = function () {
-        return $http({
-            method: "GET",
-            url: "/auth"
-        });
-    };
-    // this.createEvent= (event) =>{
-    //     console.log('Service', event)
-    //     return $http({
-    //         url: '/api/create-event',
-    //         method: 'POST',
-    //         data: event
-    //     }).then((res) => {
-    //         return res.data
-    //     })
-    // }
-
-    this.addEvent = function (event) {
-        return $http({
-            url: '/api/add-event',
-            method: 'POST',
-            data: event
-        });
-    };
-    this.getEvents = function () {
-        console.log(events);
-        return $http({
-            url: '/api/get-event',
-            method: 'GET'
-        }).then(function (res) {
-            return res.data.events;
-        });
-    };
-    this.recieveEvent = function () {
-        console.log(event);
-        return $http({
-            url: '/api/receive-event',
-            method: 'GET'
-        }).then(function (res) {
-            return res.data;
-        });
-    };
-
-    this.getGrades = function () {
-        return $http({
-            url: '/api/get-grades',
-            method: 'GET'
-        }).then(function (res) {
-            return res.data;
-        });
-    };
-
-    this.postGrades = function (grades) {
-        console.log("Service", grades);
-        return $http({
-            url: '/api/update-grades',
-            method: "POST",
-            data: grades
-        });
-    };
-
-    this.getUser = function () {
-        //    console.log("Service", users)
-        return $http({
-            url: '/auth/me',
-            method: 'GET'
-        });
-    };
 });
 //# sourceMappingURL=maps/all.js.map
