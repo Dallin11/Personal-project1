@@ -14,3 +14,12 @@ create table grades(
     grade integer
 ) 
 
+create table users(
+    name text,
+    username text,
+    password varchar,
+    auth0Id text
+
+
+)
+

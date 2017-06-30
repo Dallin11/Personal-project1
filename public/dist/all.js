@@ -5,13 +5,24 @@ angular.module("app", ["ui.router", "ui.calendar", 'ui.bootstrap', 'chart.js']).
     $urlRouterProvider.otherwise('/');
 
     $stateProvider.state("home", {
-        url: "/home",
+        url: "/",
         templateUrl: "./app/views/home.html",
         controller: "homeCtrl"
     }).state("calendar", {
         url: "/calendar",
         templateUrl: "./app/views/calendar.html",
-        controller: "calendarCtrl"
+        controller: "calendarCtrl",
+        resolve: {
+            users: function users(mainSvc, $state, $rootScope) {
+                mainSvc.getUser().then(function (response) {
+                    if (response === 'No Way Jose') {
+                        event.preventDefault();
+                        $state.go("login");
+                    }
+                });
+            }
+        }
+
     }).state("grades", {
         url: "/grades",
         templateUrl: "./app/views/grades.html",
@@ -11253,7 +11264,7 @@ angular.module("app").service("mainSvc", function ($http) {
     };
     this.getEvents = function () {
         console.log(events);
-        return$http({
+        return $http({
             url: '/api/get-event',
             method: 'GET'
         }).then(function (res) {
@@ -11285,6 +11296,14 @@ angular.module("app").service("mainSvc", function ($http) {
             url: '/api/update-grades',
             method: "POST",
             data: grades
+        });
+    };
+
+    this.getUser = function () {
+        //    console.log("Service", users)
+        return $http({
+            url: '/auth/me',
+            method: 'GET'
         });
     };
 });

@@ -4,15 +4,28 @@ angular.module("app", (["ui.router", "ui.calendar", 'ui.bootstrap', 'chart.js'])
 
     $stateProvider
         .state("home", {
-            url: "/home",
+            url: "/",
             templateUrl: "./app/views/home.html",
             controller: "homeCtrl"
         })
         .state("calendar", {
             url: "/calendar",
             templateUrl: "./app/views/calendar.html",
-            controller: "calendarCtrl"
-        })
+            controller: "calendarCtrl",
+                   resolve: {
+                    users: function (mainSvc, $state, $rootScope) {
+                        mainSvc.getUser().then(response => {
+                            if (response === 'No Way Jose') {
+                                event.preventDefault()
+                                $state.go("login")
+                            }
+                        })
+                    }
+                }
+
+                }
+            
+        )
         .state("grades", {
             url: "/grades",
             templateUrl: "./app/views/grades.html",

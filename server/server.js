@@ -32,9 +32,25 @@ passport.use(new Auth0Strategy({
     clientID: config.clientID,
     clientSecret: config.clientSecret,
     callbackURL: config.callbackURL
-}, function (assesToken, refreshToken, extraParams, profile, done) {
-    return done(null, profile);
-}));
+}, function (assesToken, refreshToken, extraParams, profile, done) {  
+    
+  var db = app.get('db')
+    //Find user in database
+    db.getUserByAuthId(profile.id).then(function (user) {
+      user = user[0];
+      if (!user) { //if there isn't one, we'll create one!
+        console.log('CREATING USER');
+        db.createUserByAuth([profile.displayName, profile.id]).then(function (user) {
+          console.log('USER CREATED', user);
+          return done(null, user[0]); // GOES TO SERIALIZE USER
+        })
+      } else { //when we find the user, return it
+        console.log('FOUND USER', user);
+        return done(null, user);
+      }
+    })
+  }
+));    
 
 // Auth Endpoints ===============================
 app.get('/auth', passport.authenticate('auth0'));
@@ -55,6 +71,21 @@ app.get('/auth/me', function (req, res) {
 app.get('/auth/logout', function (req, res) {
     req.logout();
     res.redirect('/');
+})
+
+
+passport.serializeUser((userA, done) => {
+  console.log('serializing', userA);
+  var userB = userA;
+ 
+  done(null, userB); 
+});
+
+passport.deserializeUser((userB, done) => {
+  var userC = userB;
+  var db = app.get('db')
+
+    done(null, userC)
 })
 
 // Post Endpoints ===============================
@@ -92,6 +123,11 @@ app.get('/api/get-grades', (req, res, next) => {
     res.send(response) 
     })
 })
+ 
+ app.get('/api/get-user', (req, res, next) => {
+      if(req.user) res.send(req.user)
+      else res.send ("No Way Jose")
+ })
 
 app.listen(3000, function () {
     console.log("Connected on 3000")

@@ -103,6 +103,11 @@ input, select {
   background-color: rgba(0, 0, 0, 0.4);
   /* Black w/ opacity */ }
 
+a {
+  text-decoration: none; }
+  a :hover {
+    color: white; }
+
 .event-form {
   position: relative;
   background-color: #fefefe;
@@ -185,6 +190,11 @@ header {
   -ms-flex-align: center;
   align-items: center;
   height: 45px; }
+  header a {
+    text-decoration: none;
+    color: whitesmoke; }
+  header :hover {
+    font-size: 20px; }
 
 .background-frontpage {
   display: -webkit-box;
@@ -206,7 +216,4 @@ header {
   color: black;
   -ms-flex-wrap: wrap;
   flex-wrap: wrap; }
-
-a:hover {
-  font-size: 25px; }
 

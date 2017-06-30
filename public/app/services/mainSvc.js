@@ -27,7 +27,7 @@ angular.module("app").service("mainSvc", function ($http) {
     }
     this.getEvents = () => {
         console.log(events)
-        return$http({
+        return $http({
             url: '/api/get-event',
             method: 'GET'
         }).then((res) => {
@@ -62,6 +62,14 @@ angular.module("app").service("mainSvc", function ($http) {
            data: grades
        })
        
+   }
+
+   this.getUser = () => {
+    //    console.log("Service", users)
+       return $http({
+           url: '/auth/me',
+           method: 'GET'
+       })
    }
 
 })
