@@ -1,21 +1,25 @@
+<div class="top-menu">
+    <section>
+        <input  class= "name" type="text" placeholder="Name" ng-model="postinfo.name">
+        <!--Select grade dropdown menu-->
+        <select placeholder="Grade" ng-model="postinfo.grade">  
+       <option selected value="1" onclick="quarterUpdate()" >1</option>
+       <option value="2" onclick="quarterUpdate()" >2</option>
+       <option value="3" onclick="quarterUpdate()" >3</option>
+       <option value="4" onclick="quarterUpdate()" >4</option>
+       </select>
+        <button  class="add-button"ng-model="postinfo.grades" ng-click="post(postinfo)">Add</button>
+    <button class="chart-button"><a ui-sref="chart">Chart</a></button>
+        </section>
+</div>
+   
+    <!-- Edit grade column 3 -->
 <table>
     <tr>
         <th>Name</th>
         <th>Grade</th>
         <th>Edit Grade</th>
     </tr>
-    <a ui-sref="chart">Chart</a>
-
-    <input type="text" placeholder="Name" ng-model="postinfo.name">
-    <!--Select grade dropdown menu-->
-    <select placeholder="Grade" ng-model="postinfo.grade">  
-       <option selected value="1" onclick="quarterUpdate()" >1</option>
-       <option value="2" onclick="quarterUpdate()" >2</option>
-       <option value="3" onclick="quarterUpdate()" >3</option>
-       <option value="4" onclick="quarterUpdate()" >4</option>
-       </select>
-    <button ng-model="postinfo.grades" ng-click="post(postinfo)">Add</button>
-    <!-- Edit grade column 3 -->
     <tr ng-repeat="grade in grades">
         <td>{{grade.name}} </td>
         <td>{{grade.grade}}</td>

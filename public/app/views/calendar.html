@@ -1,5 +1,8 @@
-<a ui-sref="grades">Grades</a>
-<button id="myBtn" ng-click="showModal = !showModal">Open Modal</button>
+
+<div class= "top-button">
+<button class="myBtn" ng-click="showModal = !showModal">Create Event</button>
+<button><a ui-sref="grades">Grades</a></button>
+</div>
 <div ui-calendar="uiConfig.calendar" config="uiConfig.calendar" id="calendar" ng-model="eventSources"></div>
 
 <div id="myModal" class="modal" ng-show="showModal">

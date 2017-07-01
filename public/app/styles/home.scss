@@ -1,16 +1,19 @@
 header {
-    background-color:#60889C;
+    background-color:#6C648D;
     display: flex;
     justify-content: space-around;
     align-items: center;
-    height:45px;
+    height:50px;
+    width:100%;
     a{
     text-decoration: none;
-    color: whitesmoke;
+    color: whitesmoke
+    
     
 }
  :hover{
      font-size: 20px;
+    color: #6CBBA8;
 
 }
     }
@@ -19,6 +22,8 @@ header {
     background-image: url("../app/styles/pics/william-iven-19843.jpg");
     width:100%;
     height:100vh;
+    -webkit-filter: grayscale(25%);
+    filter: grayscale(25%);
     background-size:cover;
     background-repeat:no-repeat;
     flex-direction: column;
@@ -26,6 +31,25 @@ header {
     font-size: 30px;
     color: black;
     flex-wrap: wrap;
+h3{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0.9;
+    margin-top: -200px;
+background-color:#63B3A0;
+height:107px;
+color:black;
     
+}
+    
+}
+
+footer{
+    height:50px;
+    width: 100%;
+    background-color:#6C648D;
+    position: fixed;
+    bottom: 0px;
 }
 

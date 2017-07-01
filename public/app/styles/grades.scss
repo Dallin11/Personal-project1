@@ -3,10 +3,38 @@ table {
     height: 100%;
     width: 100%;
 }
+
 td {
     border: 1px solid #999;
-    padding:3px 10px;
+    padding: 3px 10px;
 }
+
 td select {
     border: none;
+}
+
+.name{
+    height:25px;
+    margin-right: 5px;
+}
+select{
+    margin: 5px;
+}
+.add-button{
+        margin-top: 3px;
+}
+
+.top-menu {
+    height: 41px;
+    width: 100%;
+    section {
+        display: flex;
+        justify-content: space-between;
+        width: 289px;
+        margin:10px;
+        .chart-button {
+            margin-left: 975px;
+            border-radius: 7px;
+        }
+    }
 }
