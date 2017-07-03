@@ -69,17 +69,23 @@ angular.module("app").controller("calendarCtrl", function ($scope, users, $compi
   // The Events that Show on calendar
   $scope.events = [];
 
-  $scope.getEvents = function () {
-    mainSvc.getEvents().then(function (response) {
+  $scope.addEvent = function () {
+    mainSvc.addEvent().then(function (response) {
       console.log(response);
-      $scope.push(response //push the res back to events!
+      $scope.events.push(response.data.events[0] //push the res back to events!
       );
     });
-    $scope.getEvent();
   };
+  //  $scope.getEvents = (event) => {
+  //    mainSvc.getEvents().then((response) => {
+  //      $scope.events = response
+  //      console.log(response)
+  //    })
+  //  }
+  $scope.addEvent
 
   /* event source that calls a function on every view switch */
-  $scope.eventsF = function (start, end, timezone, callback) {
+  ();$scope.eventsF = function (start, end, timezone, callback) {
     var s = new Date(start).getTime() / 1000;
     var e = new Date(end).getTime() / 1000;
     var m = new Date(start).getMonth();
@@ -158,6 +164,12 @@ angular.module("app").controller("calendarCtrl", function ($scope, users, $compi
   //     console.log(event)
   // });
 
+  // $scope.eventsWatcher.onAdded = function (event) {
+  //    if (calendar && calendar.fullCalendar) {
+  //         calendar.fullCalendar('renderEvent', event, true);
+  //    }
+  // };
+
   $scope.extraEventSignature = function (event) {
     return "" + event.price;
   };
@@ -169,6 +181,7 @@ angular.module("app").controller("calendarCtrl", function ($scope, users, $compi
   $scope.changeView = function (view, calendar) {
     uiCalendarConfig.calendars[calendar].fullCalendar('changeView', view);
   };
+
   /* Change View */
   $scope.renderCalender = function (calendar) {
     if (uiCalendarConfig.calendars[calendar]) {
@@ -188,77 +201,105 @@ angular.module("app").controller("calendarCtrl", function ($scope, users, $compi
   $scope.eventSources = [$scope.events, $scope.eventSource, $scope.eventsF];
   // $scope.eventSources2 = [$scope.calEventsExt, $scope.eventsF, $scope.events];
 
-
-  //   $(document).ready(function () {
-
-
-  //   //   $('#calendar').fullCalendar({
-  //   //     eventClick: function (calEvent, jsEvent, view) {
-
-  //   //       alert('Event: ' + calEvent.title);
-  //   //       alert('Coordinates: ' + jsEvent.pageX + ',' + jsEvent.pageY);
-  //   //       alert('View: ' + view.name);
-
-  //   //       // change the border color just for fun
-  //   //       $(this).css('border-color', 'red');
-
-  //   //     }
-  //     $('#calendar').fullCalendar({
-  //     eventClick: function(event, element) {
-  //         console.log(element)
-  //         event.title = "CLICKED!";
-
-  //         $('#calendar').fullCalendar('updateEvent', event);
-
-  //     }
-  //     })
-  // })
 });
-
-//  document.getElementsByClassName('fc-body').addEventListener("click", function()
-// var modal = document.getElementById('myModal');
 "use strict";
 
 angular.module("app").controller("chartCtrl", function ($scope, mainSvc) {
 
-    mainSvc.getGrades().then(function (res) {
-        $scope.grades = res;
-        console.log($scope.grades);
-        var gradeNum = [];
-        var names = [];
-        $scope.grades.forEach(function (key) {
-            names.push(key.name);
-            gradeNum.push(key.grade);
-        });
-        console.log(gradeNum, names);
-
-        $scope.labels = names;
-        $scope.series = ['Series A', 'Series B'];
-        $scope.data = gradeNum;
-        $scope.onClick = function (points, evt) {
-            console.log(points, evt);
-        };
-        $scope.datasetOverride = [{
-            yAxisID: 'y-axis-1'
-        }, {
-            yAxisID: 'y-axis-2'
-        }];
-        $scope.options = {
-            scales: {
-                yAxes: [{
-                    id: 'y-axis-1',
-                    type: 'linear',
-                    display: true,
-                    position: 'left'
-                }, {
-                    id: 'y-axis-2',
-                    type: 'linear',
-                    display: true,
-                    position: 'right'
-                }]
-            }
-        };
+  mainSvc.getGrades().then(function (res) {
+    $scope.grades = res;
+    console.log($scope.grades);
+    var gradeNum = [];
+    var names = [];
+    $scope.grades.forEach(function (key) {
+      names.push(key.name);
+      gradeNum.push(key.grade);
     });
+    console.log(gradeNum, names);
+
+    $scope.labels = names;
+    $scope.series = ['Series A', 'Series B'];
+    $scope.data = gradeNum;
+    $scope.onClick = function (points, evt) {
+      console.log(points, evt);
+    };
+    $scope.datasetOverride = [{
+      yAxisID: 'y-axis-1'
+    }, {
+      yAxisID: 'y-axis-2'
+    }];
+    $scope.options = {
+      scales: {
+        yAxes: [{
+          id: 'y-axis-1',
+          type: 'linear',
+          display: true,
+          position: 'left'
+        }, {
+          id: 'y-axis-2',
+          type: 'linear',
+          display: true,
+          position: 'right'
+        }]
+      }
+    };
+  }
+
+  // Create a "close" button and append it to each list item
+  );var myNodelist = document.getElementsByTagName("LI");
+  var i;
+  for (i = 0; i < myNodelist.length; i++) {
+    var span = document.createElement("SPAN");
+    var txt = document.createTextNode("\xD7");
+    span.className = "close";
+    span.appendChild(txt);
+    myNodelist[i].appendChild(span);
+  }
+
+  // Click on a close button to hide the current list item
+  var close = document.getElementsByClassName("close");
+  var i;
+  for (i = 0; i < close.length; i++) {
+    close[i].onclick = function () {
+      var div = this.parentElement;
+      div.style.display = "none";
+    };
+  }
+
+  // Add a "checked" symbol when clicking on a list item
+  var list = document.querySelector('ul');
+  list.addEventListener('click', function (ev) {
+    if (ev.target.tagName === 'LI') {
+      ev.target.classList.toggle('checked');
+    }
+  }, false);
+
+  // Create a new list item when clicking on the "Add" button
+  function newElement() {
+    var li = document.createElement("li");
+    var inputValue = document.getElementById("myInput").value;
+    var t = document.createTextNode(inputValue);
+    li.appendChild(t);
+    if (inputValue === '') {
+      alert("You must write something!");
+    } else {
+      document.getElementById("myUL").appendChild(li);
+    }
+    document.getElementById("myInput").value = "";
+
+    var span = document.createElement("SPAN");
+    var txt = document.createTextNode("\xD7");
+    span.className = "close";
+    span.appendChild(txt);
+    li.appendChild(span);
+
+    for (i = 0; i < close.length; i++) {
+      close[i].onclick = function () {
+        var div = this.parentElement;
+        div.style.display = "none";
+      };
+    }
+  }
 });
 "use strict";
 
@@ -11216,15 +11257,16 @@ angular.module("app").service("mainSvc", function ($http) {
             data: event
         });
     };
-    this.getEvents = function () {
-        console.log(events);
-        return $http({
-            url: '/api/get-event',
-            method: 'GET'
-        }).then(function (res) {
-            return res.data.events;
-        });
-    };
+    // this.getEvents = () => {
+    //     console.log()
+    //     return $http({
+    //         url: '/api/get-events',
+    //         method: 'GET'
+    //     }).then((res) => {
+    //         console.log()
+    //        return res.data.events
+    //    })
+    // }
     this.recieveEvent = function () {
         console.log(event);
         return $http({

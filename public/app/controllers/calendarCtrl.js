@@ -28,13 +28,21 @@ angular.module("app").controller("calendarCtrl", function ($scope, users, $compi
 // The Events that Show on calendar
   $scope.events = [];
 
-   $scope.getEvents = () =>{
-     mainSvc.getEvents().then(response => {
+   $scope.addEvent = () =>{
+     mainSvc.addEvent().then(response => {
          console.log(response)
-        $scope.push(response)//push the res back to events!
+        $scope.events.push(response.data.events[0])//push the res back to events!
      })
-   $scope.getEvent()
    }
+  //  $scope.getEvents = (event) => {
+  //    mainSvc.getEvents().then((response) => {
+  //      $scope.events = response
+  //      console.log(response)
+  //    })
+  //  }
+   $scope.addEvent()
+
+
   
 
 
@@ -117,6 +125,12 @@ angular.module("app").controller("calendarCtrl", function ($scope, users, $compi
   //     console.log(event)
   // });
 
+  // $scope.eventsWatcher.onAdded = function (event) {
+  //    if (calendar && calendar.fullCalendar) {
+  //         calendar.fullCalendar('renderEvent', event, true);
+  //    }
+  // };
+
   $scope.extraEventSignature = function (event) {
     return "" + event.price;
   }
@@ -128,6 +142,7 @@ angular.module("app").controller("calendarCtrl", function ($scope, users, $compi
   $scope.changeView = function (view, calendar) {
     uiCalendarConfig.calendars[calendar].fullCalendar('changeView', view);
   };
+
   /* Change View */
   $scope.renderCalender = function (calendar) {
     if (uiCalendarConfig.calendars[calendar]) {
@@ -142,6 +157,7 @@ angular.module("app").controller("calendarCtrl", function ($scope, users, $compi
     });
     $compile(element)($scope);
   };
+
   
 
 
@@ -154,33 +170,9 @@ angular.module("app").controller("calendarCtrl", function ($scope, users, $compi
 
   
 
-//   $(document).ready(function () {
-   
 
-//   //   $('#calendar').fullCalendar({
-//   //     eventClick: function (calEvent, jsEvent, view) {
-
-//   //       alert('Event: ' + calEvent.title);
-//   //       alert('Coordinates: ' + jsEvent.pageX + ',' + jsEvent.pageY);
-//   //       alert('View: ' + view.name);
-
-//   //       // change the border color just for fun
-//   //       $(this).css('border-color', 'red');
-
-//   //     }
-//     $('#calendar').fullCalendar({
-//     eventClick: function(event, element) {
-//         console.log(element)
-//         event.title = "CLICKED!";
-
-//         $('#calendar').fullCalendar('updateEvent', event);
-
-//     }
-//     })
-// })
 
   });
 
-  //  document.getElementsByClassName('fc-body').addEventListener("click", function()
-  // var modal = document.getElementById('myModal');
+ 
 

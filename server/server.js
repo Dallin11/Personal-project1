@@ -108,12 +108,19 @@ app.post('/api/add-event', (req, res, next) => {
         })
 });
 
-app.get('/api/recieve-event', (req, res, next) => {
-    req.app.get('db').receiveEvent().then((response) => {
-        res.send(response)
-    })
-    console.log(response)
-})
+// app.get('/api/get-events', (req, res, next) => {
+//     req.app.get('db').getEvents().then((response) => {
+//         res.send(response)
+//     })
+// })
+
+
+// app.get('/api/recieve-event', (req, res, next) => {
+//     req.app.get('db').receiveEvent().then((response) => {
+//         res.send(response)
+//     })
+//     console.log(response)
+// })
 app.get('/api/get-grades', (req, res, next) => {
     req.app.get('db').getGrades().then((response) => {
         res.send(response)
