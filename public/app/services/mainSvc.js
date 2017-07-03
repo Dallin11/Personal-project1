@@ -25,16 +25,16 @@ angular.module("app").service("mainSvc", function ($http) {
         })
 
     }  
-    // this.getEvents = () => {
-    //     console.log()
-    //     return $http({
-    //         url: '/api/get-events',
-    //         method: 'GET'
-    //     }).then((res) => {
-    //         console.log()
-    //        return res.data.events
-    //    })
-    // }
+    this.getEvents = () => {
+        console.log()
+        return $http({
+            url: '/api/get-events',
+            method: 'GET'
+        }).then((res) => {
+            console.log(res)
+           return res.data
+       })
+    }
     this.recieveEvent = () => {
         console.log(event)
         return $http({

@@ -1,8 +1,10 @@
 angular.module("app").controller("calendarCtrl", function ($scope, users, $compile, uiCalendarConfig, mainSvc) {
- 
- $scope.showModal = false
 
-   $scope.uiConfig = {
+  $scope.showModal = false
+
+  $scope.events = []
+
+  $scope.uiConfig = {
     calendar: {
       height: 800,
       defaultView: "agendaWeek",
@@ -25,45 +27,49 @@ angular.module("app").controller("calendarCtrl", function ($scope, users, $compi
   var d = date.getDate();
   var m = date.getMonth();
   var y = date.getFullYear();
-// The Events that Show on calendar
-  $scope.events = [];
-
-   $scope.addEvent = () =>{
-     mainSvc.addEvent().then(response => {
-         console.log(response)
-        $scope.events.push(response.data.events[0])//push the res back to events!
-     })
-   }
-  //  $scope.getEvents = (event) => {
-  //    mainSvc.getEvents().then((response) => {
-  //      $scope.events = response
-  //      console.log(response)
-  //    })
-  //  }
-   $scope.addEvent()
-
+  // The Events that Show on calendar
 
   
+  $scope.getEvents = () => {
+    mainSvc.getEvents().then((response) => {
+      console.log("calendarCtrl: ", response)
+      response.map(e => {
+        const {color, title, end_time, start_time } = e
+
+        let startTime = moment(start_time).format()
+        let endTime = moment(end_time).format()
+
+        $scope.events.push({
+              title: title,
+              start: startTime,
+              end: endTime,
+              color: color
+            })
+      })
+    })
+  } 
+  $scope.getEvents()
+
 
 
 
   /* event source that calls a function on every view switch */
-   $scope.eventsF = function (start, end, timezone, callback) {
-     var s = new Date(start).getTime() / 1000;
-     var e = new Date(end).getTime() / 1000;
-     var m = new Date(start).getMonth();
-      var events = [{
-       title: 'Feed Me ' + m,
-       start: s + (50000),
-        end: s + (100000),
-        allDay: false,
-       className: ['customFeed']
-     }];
-     callback(events);
-   };
+  $scope.eventsF = function (start, end, timezone, callback) {
+    var s = new Date(start).getTime() / 1000;
+    var e = new Date(end).getTime() / 1000;
+    var m = new Date(start).getMonth();
+    var events = [{
+      title: 'Feed Me ' + m,
+      start: s + (50000),
+      end: s + (100000),
+      allDay: false,
+      className: ['customFeed']
+    }];
+    callback(events);
+  };
 
-  
-  
+
+
   /* alert on eventClick */
   $scope.alertOnEventClick = function (date, jsEvent, view) {
     $scope.alertMessage = (date.title + ' was clicked ');
@@ -91,34 +97,32 @@ angular.module("app").controller("calendarCtrl", function ($scope, users, $compi
   };
   /* add custom event*/
   $scope.addEvent = function (event) {
-    console.log("Entered Start: ", event.start_time)
-      mainSvc.addEvent(event).then(response => {
-        const {title, color, description, notes, start_time, end_time} = response.data[0]
+    mainSvc.addEvent(event).then(response => {
+      const {
+        title,
+        color,
+        description,
+        notes,
+        start_time,
+        end_time
+      } = response.data[0]
 
-        let startTime = moment(start_time).format()
-        let endTime = moment(end_time).format()
+      let startTime = moment(start_time).format()
+      let endTime = moment(end_time).format()
 
-        
-        $scope.events.push({
-          title: title,
-          start: startTime,
-          end: endTime,
-          color: color
-        })
 
-        // $scope.events.push({
-        //   title: title,
-        //   color: color,
-        //   description: description,
-        //   notes: notes,
-        //   startTime: start_time,
-        //   endTime: end_time,
-        //   });
+      $scope.events.push({
+        title: title,
+        start: startTime,
+        end: endTime,
+        color: color
       })
-  
+
+    })
+
   }
-      
-  
+
+
 
   //     mainSvc.recieveEvent().then((response) => {
   //   $scope.event = response
@@ -158,21 +162,18 @@ angular.module("app").controller("calendarCtrl", function ($scope, users, $compi
     $compile(element)($scope);
   };
 
-  
 
 
- 
+
+
   /* event sources array*/
   $scope.eventSources = [$scope.events, $scope.eventSource, $scope.eventsF];
   // $scope.eventSources2 = [$scope.calEventsExt, $scope.eventsF, $scope.events];
 
- 
-
-  
 
 
 
-  });
 
- 
 
+
+});

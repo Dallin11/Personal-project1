@@ -108,11 +108,11 @@ app.post('/api/add-event', (req, res, next) => {
         })
 });
 
-// app.get('/api/get-events', (req, res, next) => {
-//     req.app.get('db').getEvents().then((response) => {
-//         res.send(response)
-//     })
-// })
+app.get('/api/get-events', (req, res, next) => {
+    req.app.get('db').getEvents().then((response) => {
+        res.send(response)
+    })
+})
 
 
 // app.get('/api/recieve-event', (req, res, next) => {
