@@ -1,5 +1,5 @@
-<div> 
-<section ng-controller="chartCtrl">
+<div class="full-chartpage"> 
+<section class="chart-section" ng-controller="chartCtrl">
     <canvas id="line" class="chart-line" chart-data="data"
     chart-labels="labels" chart-series="series" chart-options="options"
     chart-dataset-override="datasetOverride" chart-click="onClick">
@@ -15,14 +15,14 @@
       
       <h3>Todo</h3>
       <ul id="incomplete-tasks">
-        <li><input type="checkbox"><label>Pay Bills</label><input type="text"><button class="edit">Edit</button><button class="delete">Delete</button></li>
-        <li class="edit-Mode"><input type="checkbox"><label>Work out</label><input type="text" ><button class="edit">Edit</button><button class="delete">Delete</button></li>
+        <li><input type="checkbox"><label>Collect HomeWork</label><input type="text"><button class="edit">Edit</button><button class="delete">Delete</button></li>
+        
         
       </ul>
       
       <h3>Completed</h3>
       <ul id="completed-tasks">
-        <li><input type="checkbox" checked><label>See the Doctor</label><input type="text"><button class="edit">Edit</button><button class="delete">Delete</button></li>
+        <li><input type="checkbox" checked><label>Understand fractions</label><input type="text"><button class="edit">Edit</button><button class="delete">Delete</button></li>
       </ul>
     </div>
 

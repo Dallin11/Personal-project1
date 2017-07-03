@@ -247,7 +247,7 @@ select {
       margin-left: 975px;
       border-radius: 7px; }
 
-div {
+.full-chartpage {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -264,41 +264,40 @@ div {
   /* Task list */
   /* Completed */
   /* Edit Task */ }
-  div section {
+  .full-chartpage .chart-section {
     border-top: 10px;
     border-left: 10px;
     border-top: 10px;
     border-left: 10px;
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
+    margin-top: -223px;
     width: 100%; }
-    div section .chart-line {
+    .full-chartpage .chart-section .chart-line {
       height: 500vh;
       width: 70%;
-      padding-right: 63px; }
-  div .todo-body {
+      padding-right: 42px;
+      padding-left: 10px;
+      margin-top: 30px; }
+  .full-chartpage .todo-body {
     background: #fff;
     color: #333;
-    font-family: Lato, sans-serif; }
-    div .todo-body .container {
-      padding-right: 57px; }
-  div .container {
+    font-family: Lato, sans-serif;
+    padding-right: 42px;
+    padding-left: 10px; }
+  .full-chartpage .container {
     display: block;
     width: 400px;
-    margin: 100px auto 0; }
-  div ul {
+    margin: 22px;
+    height: 100%; }
+  .full-chartpage ul {
     margin: 0;
     padding: 0; }
-  div li * {
+  .full-chartpage li * {
     float: left; }
-  div li,
-  div h3 {
+  .full-chartpage li,
+  .full-chartpage h3 {
     clear: both;
     list-style: none; }
-  div input, div button {
-    outline: none; }
-  div .edit-Mode {
+  .full-chartpage .edit-Mode {
     background: none;
     border: 0px;
     color: #888;
@@ -307,10 +306,10 @@ div {
     margin: 10px 0 0;
     font-family: Lato, sans-serif;
     cursor: pointer; }
-  div button:hover {
+  .full-chartpage button:hover {
     color: #333; }
-  div h3,
-  div label[for='new-task'] {
+  .full-chartpage h3,
+  .full-chartpage label[for='new-task'] {
     color: #333;
     font-weight: 700;
     font-size: 15px;
@@ -318,7 +317,7 @@ div {
     padding: 30px 0 10px;
     margin: 0;
     text-transform: uppercase; }
-  div .edit .delete [type="text"] {
+  .full-chartpage .edit .delete [type="text"] {
     margin: 0;
     font-size: 18px;
     line-height: 18px;
@@ -329,41 +328,41 @@ div {
     border-radius: 6px;
     font-family: Lato, sans-serif;
     color: #888; }
-  div input[type="text"]:focus {
+  .full-chartpage input[type="text"]:focus {
     color: #333; }
-  div label[for='new-task'] {
+  .full-chartpage label[for='new-task'] {
     display: block;
     margin: 0 0 20px; }
-  div input#new-task {
+  .full-chartpage input#new-task {
     float: left;
     width: 318px; }
-  div p > button:hover {
+  .full-chartpage p > button:hover {
     color: #0FC57C; }
-  div li {
+  .full-chartpage li {
     overflow: hidden;
     padding: 20px 0;
     border-bottom: 1px solid #eee; }
-  div li > input[type="checkbox"] {
+  .full-chartpage li > input[type="checkbox"] {
     margin: 0 10px;
     position: relative;
     top: 15px; }
-  div li > label {
+  .full-chartpage li > label {
     font-size: 18px;
     line-height: 40px;
     width: 237px;
     padding: 0 0 0 11px; }
-  div li > input[type="text"] {
+  .full-chartpage li > input[type="text"] {
     width: 226px; }
-  div li > .delete:hover {
+  .full-chartpage li > .delete:hover {
     color: #CF2323; }
-  div #completed-tasks label {
+  .full-chartpage #completed-tasks label {
     text-decoration: line-through;
     color: #888; }
-  div ul li input[type=text] {
+  .full-chartpage ul li input[type=text] {
     display: none; }
-  div ul li.editMode input[type=text] {
+  .full-chartpage ul li.editMode input[type=text] {
     display: block; }
-  div ul li.editMode label {
+  .full-chartpage ul li.editMode label {
     display: none; }
 
 header {
@@ -421,7 +420,8 @@ header {
     margin-top: -200px;
     background-color: #63B3A0;
     height: 107px;
-    color: black; }
+    color: black;
+    width: 100%; }
 
 footer {
   height: 50px;
