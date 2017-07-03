@@ -30,16 +30,49 @@ angular.module("app", (["ui.router", "ui.calendar", 'ui.bootstrap', 'chart.js'])
         .state("grades", {
             url: "/grades",
             templateUrl: "./app/views/grades.html",
-            controller: "gradesCtrl"
+            controller: "gradesCtrl",
+            resolve: {
+                    users: function (mainSvc, $state) {
+
+                        mainSvc.getUser().then(response => { 
+                            if (!response) {
+                                event.preventDefault()
+                                $state.go("home")
+                            }
+                        })
+                    }
+                }
         })
         .state("login", {
             url: "/login",
             templateUrl: "./app/views/login.html",
-            controller: "loginCtrl"
+            controller: "loginCtrl",
+            resolve: {
+                    users: function (mainSvc, $state) {
+
+                        mainSvc.getUser().then(response => { 
+                            if (!response) {
+                                event.preventDefault()
+                                $state.go("home")
+                            }
+                        })
+                    }
+                }
         })
         .state("chart", {
             url: "/chart",
-            templateUrl: "./app/views/chart.html"
+            templateUrl: "./app/views/chart.html",
+            resolve: {
+                    users: function (mainSvc, $state) {
+
+                        mainSvc.getUser().then(response => { 
+                            if (!response) {
+                                event.preventDefault()
+                                $state.go("home")
+                            }
+                        })
+                    }
+                }
         })
 
 })

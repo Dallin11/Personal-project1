@@ -27,14 +27,47 @@ angular.module("app", ["ui.router", "ui.calendar", 'ui.bootstrap', 'chart.js']).
     }).state("grades", {
         url: "/grades",
         templateUrl: "./app/views/grades.html",
-        controller: "gradesCtrl"
+        controller: "gradesCtrl",
+        resolve: {
+            users: function users(mainSvc, $state) {
+
+                mainSvc.getUser().then(function (response) {
+                    if (!response) {
+                        event.preventDefault();
+                        $state.go("home");
+                    }
+                });
+            }
+        }
     }).state("login", {
         url: "/login",
         templateUrl: "./app/views/login.html",
-        controller: "loginCtrl"
+        controller: "loginCtrl",
+        resolve: {
+            users: function users(mainSvc, $state) {
+
+                mainSvc.getUser().then(function (response) {
+                    if (!response) {
+                        event.preventDefault();
+                        $state.go("home");
+                    }
+                });
+            }
+        }
     }).state("chart", {
         url: "/chart",
-        templateUrl: "./app/views/chart.html"
+        templateUrl: "./app/views/chart.html",
+        resolve: {
+            users: function users(mainSvc, $state) {
+
+                mainSvc.getUser().then(function (response) {
+                    if (!response) {
+                        event.preventDefault();
+                        $state.go("home");
+                    }
+                });
+            }
+        }
     });
 });
 "use strict";
@@ -245,60 +278,153 @@ angular.module("app").controller("chartCtrl", function ($scope, mainSvc) {
     };
   }
 
-  // Create a "close" button and append it to each list item
-  );var myNodelist = document.getElementsByTagName("LI");
-  var i;
-  for (i = 0; i < myNodelist.length; i++) {
-    var span = document.createElement("SPAN");
-    var txt = document.createTextNode("\xD7");
-    span.className = "close";
-    span.appendChild(txt);
-    myNodelist[i].appendChild(span);
-  }
+  // Problem: User interaction doesn't provide desired results.
+  // Solution: Add interactivity so the user can manage daily tasks
 
-  // Click on a close button to hide the current list item
-  var close = document.getElementsByClassName("close");
-  var i;
-  for (i = 0; i < close.length; i++) {
-    close[i].onclick = function () {
-      var div = this.parentElement;
-      div.style.display = "none";
-    };
-  }
+  );var taskInput = document.getElementById("new-task");
+  var addButton = document.getElementsByTagName("button")[0];
+  var incompleteTasksHolder = document.getElementById("incomplete-tasks");
+  var completedTasksHolder = document.getElementById("completed-tasks");
 
-  // Add a "checked" symbol when clicking on a list item
-  var list = document.querySelector('ul');
-  list.addEventListener('click', function (ev) {
-    if (ev.target.tagName === 'LI') {
-      ev.target.classList.toggle('checked');
-    }
-  }, false);
+  //New Task List Item
+  var createNewTaskElement = function createNewTaskElement(taskString) {
+    //Create List Item
+    var listItem = document.createElement("li");
 
-  // Create a new list item when clicking on the "Add" button
-  function newElement() {
-    var li = document.createElement("li");
-    var inputValue = document.getElementById("myInput").value;
-    var t = document.createTextNode(inputValue);
-    li.appendChild(t);
-    if (inputValue === '') {
-      alert("You must write something!");
+    //input (checkbox)
+    var checkBox = document.createElement("input"); // checkbox
+    //label
+    var label = document.createElement("label");
+    //input (text)
+    var editInput = document.createElement("input"); // text
+    //button.edit
+    var editButton = document.createElement("button");
+    //button.delete
+    var deleteButton = document.createElement("button");
+
+    //Each element needs modifying
+
+    checkBox.type = "checkbox";
+    editInput.type = "text";
+
+    editButton.innerText = "Edit";
+    editButton.className = "edit";
+    deleteButton.innerText = "Delete";
+    deleteButton.className = "delete";
+
+    label.innerText = taskString;
+
+    // each element needs appending
+    listItem.appendChild(checkBox);
+    listItem.appendChild(label);
+    listItem.appendChild(editInput);
+    listItem.appendChild(editButton);
+    listItem.appendChild(deleteButton);
+
+    return listItem;
+  };
+
+  // Add a new task
+  var addTask = function addTask() {
+    console.log("Add task...");
+    //Create a new list item with the text from #new-task:
+    var listItem = createNewTaskElement(taskInput.value);
+    //Append listItem to incompleteTasksHolder
+    incompleteTasksHolder.appendChild(listItem);
+    bindTaskEvents(listItem, taskCompleted);
+
+    taskInput.value = "";
+  };
+
+  // Edit an existing task
+  var editTask = function editTask() {
+    console.log("Edit Task...");
+
+    var listItem = this.parentNode;
+
+    var editInput = listItem.querySelector("input[type=text]");
+    var label = listItem.querySelector("label");
+
+    var containsClass = listItem.classList.contains("editMode");
+    //if the class of the parent is .editMode 
+    if (containsClass) {
+      //switch from .editMode 
+      //Make label text become the input's value
+      label.innerText = editInput.value;
     } else {
-      document.getElementById("myUL").appendChild(li);
+      //Switch to .editMode
+      //input value becomes the label's text
+      editInput.value = label.innerText;
     }
-    document.getElementById("myInput").value = "";
 
-    var span = document.createElement("SPAN");
-    var txt = document.createTextNode("\xD7");
-    span.className = "close";
-    span.appendChild(txt);
-    li.appendChild(span);
+    // Toggle .editMode on the parent
+    listItem.classList.toggle("editMode");
+  };
 
-    for (i = 0; i < close.length; i++) {
-      close[i].onclick = function () {
-        var div = this.parentElement;
-        div.style.display = "none";
-      };
-    }
+  // Delete an existing task
+  var deleteTask = function deleteTask() {
+    console.log("Delete task...");
+    var listItem = this.parentNode;
+    var ul = listItem.parentNode;
+
+    //Remove the parent list item from the ul
+    ul.removeChild(listItem);
+  };
+
+  // Mark a task as complete 
+  var taskCompleted = function taskCompleted() {
+    console.log("Task complete...");
+    //Append the task list item to the #completed-tasks
+    var listItem = this.parentNode;
+    completedTasksHolder.appendChild(listItem);
+    bindTaskEvents(listItem, taskIncomplete);
+  };
+
+  // Mark a task as incomplete
+  var taskIncomplete = function taskIncomplete() {
+    console.log("Task Incomplete...");
+    // When checkbox is unchecked
+    // Append the task list item #incomplete-tasks
+    var listItem = this.parentNode;
+    incompleteTasksHolder.appendChild(listItem);
+    bindTaskEvents(listItem, taskCompleted);
+  };
+
+  var bindTaskEvents = function bindTaskEvents(taskListItem, checkBoxEventHandler) {
+    console.log("Bind list item events");
+    //select taskListItem's children
+    var checkBox = taskListItem.querySelector("input[type=checkbox]");
+    var editButton = taskListItem.querySelector("button.edit");
+    var deleteButton = taskListItem.querySelector("button.delete");
+
+    //bind editTask to edit button
+    editButton.onclick = editTask;
+
+    //bind deleteTask to delete button
+    deleteButton.onclick = deleteTask;
+
+    //bind checkBoxEventHandler to checkbox
+    checkBox.onchange = checkBoxEventHandler;
+  };
+
+  var ajaxRequest = function ajaxRequest() {
+    console.log("AJAX Request");
+  };
+
+  // Set the click handler to the addTask function
+  //addButton.onclick = addTask;
+  addButton.addEventListener("click", addTask);
+  addButton.addEventListener("click", ajaxRequest);
+
+  // Cycle over the incompleteTaskHolder ul list items
+  for (var i = 0; i < incompleteTasksHolder.children.length; i++) {
+    // bind events to list item's children (taskCompleted)
+    bindTaskEvents(incompleteTasksHolder.children[i], taskCompleted);
+  }
+  // Cycle over the completeTaskHolder ul list items
+  for (var i = 0; i < completedTasksHolder.children.length; i++) {
+    // bind events to list item's children (taskIncompleted)
+    bindTaskEvents(completedTasksHolder.children[i], taskIncomplete);
   }
 });
 "use strict";
@@ -357,6 +483,83 @@ angular.module("app").controller("mainCtrl", function ($scope, mainSvc) {
     //     }
     // }
 
+});
+"use strict";
+
+angular.module("app").service("mainSvc", function ($http) {
+    // this.test = "Service working"
+    this.getauth0 = function () {
+        return $http({
+            method: "GET",
+            url: "/auth"
+        });
+    };
+    // this.createEvent= (event) =>{
+    //     console.log('Service', event)
+    //     return $http({
+    //         url: '/api/create-event',
+    //         method: 'POST',
+    //         data: event
+    //     }).then((res) => {
+    //         return res.data
+    //     })
+    // }
+
+    this.addEvent = function (event) {
+        return $http({
+            url: '/api/add-event',
+            method: 'POST',
+            data: event
+        });
+    };
+    // this.getEvents = () => {
+    //     console.log()
+    //     return $http({
+    //         url: '/api/get-events',
+    //         method: 'GET'
+    //     }).then((res) => {
+    //         console.log()
+    //        return res.data.events
+    //    })
+    // }
+    this.recieveEvent = function () {
+        console.log(event);
+        return $http({
+            url: '/api/receive-event',
+            method: 'GET'
+        }).then(function (res) {
+            return res.data;
+        });
+    };
+
+    this.getGrades = function () {
+        return $http({
+            url: '/api/get-grades',
+            method: 'GET'
+        }).then(function (res) {
+            return res.data;
+        });
+    };
+
+    this.postGrades = function (grades) {
+        return $http({
+            url: '/api/update-grades',
+            method: "POST",
+            data: grades
+        });
+    };
+
+    this.getUser = function () {
+        console.log("Service");
+        return $http({
+            url: '/auth/me',
+            method: 'GET'
+        }).then(function (res) {
+            return res;
+        }).catch(function (err) {
+            console.log('string');
+        });
+    };
 });
 "use strict";
 
@@ -11228,82 +11431,5 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
       scope.$emit('chart-destroy', scope.chart);
     }
   }
-});
-"use strict";
-
-angular.module("app").service("mainSvc", function ($http) {
-    // this.test = "Service working"
-    this.getauth0 = function () {
-        return $http({
-            method: "GET",
-            url: "/auth"
-        });
-    };
-    // this.createEvent= (event) =>{
-    //     console.log('Service', event)
-    //     return $http({
-    //         url: '/api/create-event',
-    //         method: 'POST',
-    //         data: event
-    //     }).then((res) => {
-    //         return res.data
-    //     })
-    // }
-
-    this.addEvent = function (event) {
-        return $http({
-            url: '/api/add-event',
-            method: 'POST',
-            data: event
-        });
-    };
-    // this.getEvents = () => {
-    //     console.log()
-    //     return $http({
-    //         url: '/api/get-events',
-    //         method: 'GET'
-    //     }).then((res) => {
-    //         console.log()
-    //        return res.data.events
-    //    })
-    // }
-    this.recieveEvent = function () {
-        console.log(event);
-        return $http({
-            url: '/api/receive-event',
-            method: 'GET'
-        }).then(function (res) {
-            return res.data;
-        });
-    };
-
-    this.getGrades = function () {
-        return $http({
-            url: '/api/get-grades',
-            method: 'GET'
-        }).then(function (res) {
-            return res.data;
-        });
-    };
-
-    this.postGrades = function (grades) {
-        return $http({
-            url: '/api/update-grades',
-            method: "POST",
-            data: grades
-        });
-    };
-
-    this.getUser = function () {
-        console.log("Service");
-        return $http({
-            url: '/auth/me',
-            method: 'GET'
-        }).then(function (res) {
-            return res;
-        }).catch(function (err) {
-            console.log('string');
-        });
-    };
 });
 //# sourceMappingURL=maps/all.js.map
