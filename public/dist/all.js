@@ -174,8 +174,6 @@ angular.module("app").controller("calendarCtrl", function ($scope, users, $compi
       var _response$data$ = response.data[0],
           title = _response$data$.title,
           color = _response$data$.color,
-          description = _response$data$.description,
-          notes = _response$data$.notes,
           start_time = _response$data$.start_time,
           end_time = _response$data$.end_time;
 
@@ -483,83 +481,6 @@ angular.module("app").controller("mainCtrl", function ($scope, mainSvc) {
     //     }
     // }
 
-});
-"use strict";
-
-angular.module("app").service("mainSvc", function ($http) {
-    // this.test = "Service working"
-    this.getauth0 = function () {
-        return $http({
-            method: "GET",
-            url: "/auth"
-        });
-    };
-    // this.createEvent= (event) =>{
-    //     console.log('Service', event)
-    //     return $http({
-    //         url: '/api/create-event',
-    //         method: 'POST',
-    //         data: event
-    //     }).then((res) => {
-    //         return res.data
-    //     })
-    // }
-
-    this.addEvent = function (event) {
-        return $http({
-            url: '/api/add-event',
-            method: 'POST',
-            data: event
-        });
-    };
-    this.getEvents = function () {
-        console.log();
-        return $http({
-            url: '/api/get-events',
-            method: 'GET'
-        }).then(function (res) {
-            console.log(res);
-            return res.data;
-        });
-    };
-    this.recieveEvent = function () {
-        console.log(event);
-        return $http({
-            url: '/api/receive-event',
-            method: 'GET'
-        }).then(function (res) {
-            return res.data;
-        });
-    };
-
-    this.getGrades = function () {
-        return $http({
-            url: '/api/get-grades',
-            method: 'GET'
-        }).then(function (res) {
-            return res.data;
-        });
-    };
-
-    this.postGrades = function (grades) {
-        return $http({
-            url: '/api/update-grades',
-            method: "POST",
-            data: grades
-        });
-    };
-
-    this.getUser = function () {
-        console.log("Service");
-        return $http({
-            url: '/auth/me',
-            method: 'GET'
-        }).then(function (res) {
-            return res;
-        }).catch(function (err) {
-            console.log('string');
-        });
-    };
 });
 "use strict";
 
@@ -11431,5 +11352,82 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
       scope.$emit('chart-destroy', scope.chart);
     }
   }
+});
+"use strict";
+
+angular.module("app").service("mainSvc", function ($http) {
+    // this.test = "Service working"
+    this.getauth0 = function () {
+        return $http({
+            method: "GET",
+            url: "/auth"
+        });
+    };
+    // this.createEvent= (event) =>{
+    //     console.log('Service', event)
+    //     return $http({
+    //         url: '/api/create-event',
+    //         method: 'POST',
+    //         data: event
+    //     }).then((res) => {
+    //         return res.data
+    //     })
+    // }
+
+    this.addEvent = function (event) {
+        return $http({
+            url: '/api/add-event',
+            method: 'POST',
+            data: event
+        });
+    };
+    this.getEvents = function () {
+        console.log();
+        return $http({
+            url: '/api/get-events',
+            method: 'GET'
+        }).then(function (res) {
+            console.log(res);
+            return res.data;
+        });
+    };
+    this.recieveEvent = function () {
+        console.log(event);
+        return $http({
+            url: '/api/receive-event',
+            method: 'GET'
+        }).then(function (res) {
+            return res.data;
+        });
+    };
+
+    this.getGrades = function () {
+        return $http({
+            url: '/api/get-grades',
+            method: 'GET'
+        }).then(function (res) {
+            return res.data;
+        });
+    };
+
+    this.postGrades = function (grades) {
+        return $http({
+            url: '/api/update-grades',
+            method: "POST",
+            data: grades
+        });
+    };
+
+    this.getUser = function () {
+        console.log("Service");
+        return $http({
+            url: '/auth/me',
+            method: 'GET'
+        }).then(function (res) {
+            return res;
+        }).catch(function (err) {
+            console.log('string');
+        });
+    };
 });
 //# sourceMappingURL=maps/all.js.map

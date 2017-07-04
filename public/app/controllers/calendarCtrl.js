@@ -101,8 +101,6 @@ angular.module("app").controller("calendarCtrl", function ($scope, users, $compi
       const {
         title,
         color,
-        description,
-        notes,
         start_time,
         end_time
       } = response.data[0]

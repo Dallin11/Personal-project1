@@ -92,13 +92,13 @@ passport.deserializeUser((userB, done) => {
 
 // Post Endpoints ===============================
 app.post('/api/add-event', (req, res, next) => {
-    const { title, color, description, notes, start_time, end_time} = req.body
+    const { title, color, start_time, end_time} = req.body
 
     let newStartTime = moment(start_time).format('LLLL')
     let newEndTime = moment(end_time).format('LLLL')
     console.log(newStartTime, newEndTime)
 
-    req.app.get('db').addEvent([title, color, description, notes, newStartTime, newEndTime]).then(response => {
+    req.app.get('db').addEvent([title, color, newStartTime, newEndTime]).then(response => {
             console.log(response)
 
             res.send(response)
@@ -137,9 +137,8 @@ app.post('/api/update-grades', (req, res, next) => {
 });
 
 
+   app.listen(process.env.PORT || 3000, function() {
+            console.log('listening on port', this.address().port);
+    });
 
 
-
-app.listen(3000, function () {
-    console.log("Connected on 3000")
-})

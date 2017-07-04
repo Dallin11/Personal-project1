@@ -1,9 +1,7 @@
 create table events(
  title text,
   color text, 
-  description text,
-   notes text,
-    start_time timestamp,
+     start_time timestamp,
      end_time timestamp
 )
 
