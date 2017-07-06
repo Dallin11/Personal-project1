@@ -31,6 +31,7 @@
     "moment": "^2.18.1",
     "nodemon": "^1.11.0",
     "passport": "^0.3.2",
-    "passport-auth0": "^0.6.0"
+    "passport-auth0": "^0.6.0",
+    "session": "^0.1.0"
   }
 }
