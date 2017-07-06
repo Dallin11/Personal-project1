@@ -5,7 +5,7 @@ const express = require("express"),
     cors = require('cors'),
     bodyParser = require('body-parser')
 massive = require('massive')
-config = require('./config.js')
+// config = require('./config.js')
 moment = require('moment')
 
 const app = express();
@@ -14,7 +14,7 @@ app.use(bodyParser.json());
 app.use(session({
     resave: true,
     saveUninitialized: true,
-    secret: "ohiostate"
+    secret: process.env.secret
 }))
 app.use(passport.initialize())
 app.use(passport.session())
@@ -22,16 +22,16 @@ app.use(express.static(__dirname + "./../public"))
 
 
 // MASSIVE ===============================
-massive(config.database).then(db => {
-    app.set('db', db);
-});
+    massive(process.env.connectionString).then ((db) => {
+            app.set('db', db);
+    });
 
 
 passport.use(new Auth0Strategy({
-    domain: config.domain,
-    clientID: config.clientID,
-    clientSecret: config.clientSecret,
-    callbackURL: config.callbackURL
+    domain: process.env.domain,
+    clientID: process.env.clientID,
+    clientSecret: process.env.clientSecret,
+    callbackURL: "/auth/callback"
 }, function (assesToken, refreshToken, extraParams, profile, done) {
 
     var db = app.get('db')
