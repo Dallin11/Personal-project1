@@ -29,7 +29,7 @@ app.use(express.static(__dirname + "./../public"))
 
 passport.use(new Auth0Strategy({
     domain: process.env.domain,
-    clientID: process.env.clientID,
+    clientId: process.env.clientID,
     clientSecret: process.env.clientSecret,
     callbackURL: "/auth/callback"
 }, function (assesToken, refreshToken, extraParams, profile, done) {
