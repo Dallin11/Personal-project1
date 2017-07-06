@@ -12,8 +12,8 @@ const app = express();
 
 app.use(bodyParser.json());
 app.use(session({
-    resave: true,
-    saveUninitialized: true,
+    resave: false,
+    saveUninitialized: false,
     secret: process.env.secret
 }))
 app.use(passport.initialize())
