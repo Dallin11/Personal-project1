@@ -16,7 +16,7 @@ create table users(
     name text,
     username text,
     password varchar,
-    auth0Id text
+    auth0Id text,
 
 
 )
