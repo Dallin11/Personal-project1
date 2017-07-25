@@ -5,7 +5,7 @@ const express = require("express"),
     cors = require('cors'),
     bodyParser = require('body-parser'),
 massive = require('massive'),
-// config = require('./config.js')
+// config = require('./config.js'),
 moment = require('moment')
 
 const app = express();
@@ -22,15 +22,18 @@ app.use(express.static(__dirname + "./../public"))
 
 
 // MASSIVE ===============================
-    massive(process.env.connectionString).then ((db) => {
+    // massive(process.env.connectionString).then ((db) => {
+    //         app.set('db', db);
+    // });
+
+ massive(process.env.connectionString).then ((db) => {
             app.set('db', db);
     });
 
-
 passport.use(new Auth0Strategy({
     domain: process.env.domain,
-    clientID: process.env.clientID,
-    clientSecret: process.env.clientSecret,
+    clientID:process.env.clientID,
+    clientSecret: process.env.secret,
     callbackURL: "/auth/callback"
 }, function (assesToken, refreshToken, extraParams, profile, done) {
 
@@ -68,6 +71,7 @@ app.get('/auth/me', function (req, res) {
     console.log(req.user)
     if (!req.user) return res.sendStatus(404);
     res.status(200).send(req.user);
+    console.log(req.user)
 })
 
 app.get('/auth/logout', function (req, res) {
@@ -128,13 +132,19 @@ app.get('/api/get-grades', (req, res, next) => {
 })
 
 app.post('/api/update-grades', (req, res, next) => {
-    const {users, name, grade} = req.body
-    console.log("body",body)
+    req.app.get('db').getUserIdByName([req.body.name]).then(userId => {
+        console.log('getUseridbyname', userId[0].userid)
+    const {name, grade} = req.body
     console.log(req.body)
-    req.app.get('db').updateGrades([name, grade]).then(response => {
+    req.app.get('db').updateGrades([userId[0].userid, name, grade]).then(response => {
         console.log("UpdateGrades: ", response)
         res.status(200).send(response)
         })
+    .catch((error) =>{
+        console.log(error, "error")
+        res.send(error)
+    })
+    })
 });
 
 

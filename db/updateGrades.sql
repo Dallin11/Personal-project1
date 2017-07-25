@@ -1,1 +1,1 @@
-insert into grades (userId integer references users(userId),name, grade) values ($1, $2, $3) returning *
+insert into grades (userId ,name, grade) values ($1, $2, $3) returning *
