@@ -3,8 +3,8 @@ const express = require("express"),
     passport = require("passport"),
     Auth0Strategy = require("passport-auth0"),
     cors = require('cors'),
-    bodyParser = require('body-parser')
-massive = require('massive')
+    bodyParser = require('body-parser'),
+massive = require('massive'),
 // config = require('./config.js')
 moment = require('moment')
 
