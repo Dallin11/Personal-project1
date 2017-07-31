@@ -102,7 +102,7 @@ app.post('/api/add-event', (req, res, next) => {
     let newEndTime = moment(end_time).format('LLLL')
     console.log(newStartTime, newEndTime)
 
-    req.app.get('db').addEvent([title, color, newStartTime, newEndTime]).then(response => {
+    req.app.get('db').addEvent([usersId[0].userid, title, color, newStartTime, newEndTime]).then(response => {
             console.log(response)
 
             res.send(response)
