@@ -96,13 +96,13 @@ passport.deserializeUser((userB, done) => {
 
 // Post Endpoints ===============================
 app.post('/api/add-event', (req, res, next) => {
-    const { title, color, start_time, end_time} = req.body
+    const {title, color, start_time, end_time} = req.body
 
     let newStartTime = moment(start_time).format('LLLL')
     let newEndTime = moment(end_time).format('LLLL')
     console.log(newStartTime, newEndTime)
 
-    req.app.get('db').addEvent([title, color, newStartTime, newEndTime]).then(response => {
+    req.app.get('db').addEvent([userId[0].userid, color, newStartTime, newEndTime].then(response => {
             console.log(response)
 
             res.send(response)
