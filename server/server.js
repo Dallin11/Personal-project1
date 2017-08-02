@@ -132,16 +132,16 @@ app.post('/api/update-grades', (req, res, next) => {
     req.app.get('db').updateGrades(name, grade).then(response => {
         console.log("UpdateGrades: ", response)
         res.status(200).send(response)
-    }) .catch((error) =>{
+        })
+    .catch((error) =>{
         console.log(error, "error")
         res.send(error)
     })
     })
+})
 });
 
 
    app.listen(process.env.PORT || 3000, function() {
             console.log('listening on port', this.address().port);
     });
-
-
