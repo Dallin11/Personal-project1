@@ -133,10 +133,10 @@ app.get('/api/get-grades', (req, res, next) => {
 
 app.post('/api/update-grades', (req, res, next) => {
     req.app.get('db').getUserIdByName([req.body.name]).then(userId => {
-        console.log('getUseridbyname', userId[0].userid)
+
     const {name, grade} = req.body
     console.log(req.body)
-    req.app.get('db').updateGrades([userId[0].userid, name, grade]).then(response => {
+    req.app.get('db').updateGrades(name, grade).then(response => {
         console.log("UpdateGrades: ", response)
         res.status(200).send(response)
         })
