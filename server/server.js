@@ -5,7 +5,7 @@ const express = require("express"),
     cors = require('cors'),
     bodyParser = require('body-parser'),
 massive = require('massive'),
-config = require('./config.js'),
+// config = require('./config.js'),
 moment = require('moment')
 
 const app = express();
@@ -17,7 +17,7 @@ app.use(session({
     secret: process.env.secret
 }))
 app.use(passport.initialize())
-app.use(express.session())
+app.use(passport.session())
 app.use(express.static(__dirname + "./../public"))
 
 
