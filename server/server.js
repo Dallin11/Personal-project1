@@ -5,7 +5,7 @@ const express = require("express"),
     cors = require('cors'),
     bodyParser = require('body-parser'),
 massive = require('massive'),
-// config = require('./config.js'),
+config = require('./config.js'),
 moment = require('moment')
 
 const app = express();
@@ -22,9 +22,7 @@ app.use(express.static(__dirname + "./../public"))
 
 
 // MASSIVE ===============================
-    // massive(process.env.connectionString).then ((db) => {
-    //         app.set('db', db);
-    // });
+
 
  massive(process.env.connectionString).then ((db) => {
             app.set('db', db);
