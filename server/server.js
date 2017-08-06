@@ -1,5 +1,5 @@
-const cookie = require("cookie"),
-    session = require("cookie-session"),
+const express = require("express"),
+    session = require("express-session"),
     passport = require("passport"),
     Auth0Strategy = require("passport-auth0"),
     cors = require('cors'),
@@ -8,7 +8,7 @@ massive = require('massive'),
 config = require('./config.js'),
 moment = require('moment')
 
-const app = cookie();
+const app = express();
 
 app.use(bodyParser.json());
 app.use(session({
@@ -18,7 +18,7 @@ app.use(session({
 }))
 app.use(passport.initialize())
 app.use(passport.session())
-app.use(cookie.static(__dirname + "./../public"))
+app.use(express.static(__dirname + "./../public"))
 
 
 // MASSIVE ===============================
