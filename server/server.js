@@ -17,7 +17,7 @@ app.use(session({
     secret: process.env.secret
 }))
 app.use(passport.initialize())
-app.use(passport.session())
+app.use(express.session())
 app.use(express.static(__dirname + "./../public"))
 
 
