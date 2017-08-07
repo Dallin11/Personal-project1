@@ -1,5 +1,5 @@
-const express = require("express"),
-    session = require("express-session"),
+const cookie = require("cookie"),
+    session = require("cookie-session"),
     passport = require("passport"),
     Auth0Strategy = require("passport-auth0"),
     cors = require('cors'),
@@ -10,18 +10,18 @@ moment = require('moment')
 
 const MemoryStore = require('session-memory-store')(session);
 
-const app = express();
+const app = cookie();
 
 app.use(bodyParser.json());
 app.use(session({
     resave: false,
     saveUninitialized: false,
     secret: process.env.secret,
-    store: new MemoryStore()
+    store: new MemoryStore
 }))
 app.use(passport.initialize())
 app.use(passport.session())
-app.use(express.static(__dirname + "./../public"))
+app.use(cookie.static(__dirname + "./../public"))
 
 
 // MASSIVE ===============================
