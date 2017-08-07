@@ -17,7 +17,7 @@ app.use(session({
     resave: false,
     saveUninitialized: false,
     secret: process.env.secret,
-    store: new MemoryStore(options)
+    store: new MemoryStore
 }))
 app.use(passport.initialize())
 app.use(passport.session())
