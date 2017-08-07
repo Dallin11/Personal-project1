@@ -34,7 +34,6 @@
     "nodemon": "^1.11.0",
     "passport": "^0.3.2",
     "passport-auth0": "^0.6.0",
-    "session": "^0.1.0",
-    "session-memory-store": "^0.2.2"
+    "session": "^0.1.0"
   }
 }
