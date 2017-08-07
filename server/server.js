@@ -8,13 +8,16 @@ massive = require('massive'),
 // config = require('./config.js'),
 moment = require('moment')
 
+const MemoryStore = require('session-memory-store')(session);
+
 const app = express();
 
 app.use(bodyParser.json());
 app.use(session({
     resave: false,
     saveUninitialized: false,
-    secret: process.env.secret
+    secret: process.env.secret,
+    store: new MemoryStore(options)
 }))
 app.use(passport.initialize())
 app.use(passport.session())
