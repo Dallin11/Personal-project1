@@ -6,9 +6,7 @@ const cookie = require("cookie"),
     bodyParser = require('body-parser'),
 massive = require('massive'),
 // config = require('./config.js'),
-moment = require('moment')
-
-const MemoryStore = require('session-memory-store')(session);
+moment = require('moment');
 
 const app = cookie();
 
@@ -17,7 +15,7 @@ app.use(session({
     resave: false,
     saveUninitialized: false,
     secret: process.env.secret,
-    store: new MemoryStore
+
 }))
 app.use(passport.initialize())
 app.use(passport.session())
